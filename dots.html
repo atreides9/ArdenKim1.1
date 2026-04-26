@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dots — 정보 통합 플랫폼 | Arden Kim</title>
+    <link rel="icon" type="image/svg+xml" href="./fernweh/favicon/favicon1.2.svg">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/dark-mode.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600&family=Diphylleia&family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600&family=Bagel+Fat+One&display=swap"
+        rel="stylesheet">
+
+    <!-- Prevent dark mode flash -->
+    <script>
+        (function () {
+            const theme = localStorage.getItem('theme');
+            if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark-mode-loading');
+                document.body.classList.add('dark-mode');
+            }
+        })();
+    </script>
+
+    <style>
+        /* Prevent flash during page load */
+        .dark-mode-loading {
+            background-color: #121212 !important;
+            color: #e0e0e0 !important;
+        }
+
+        /* Smooth transitions for theme changes */
+        * {
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+        }
+
+        /* Disable transitions during page load to prevent flash */
+        .preload * {
+            transition: none !important;
+        }
+
+        /* Hero tag line */
+        .project-tag {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--accent-color);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Impact line under h1 */
+        .project-impact {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            margin-bottom: 2rem;
+            word-break: keep-all;
+        }
+
+        /* Meta row — 4 columns */
+        .meta-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+            padding: 1.75rem 2rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .meta-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+        }
+
+        .meta-value {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .meta-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .meta-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Section label (small caps above h2) */
+        .section-label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Insight grid — 3 columns */
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .insight-item {
+            padding: 1.75rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .insight-number {
+            display: block;
+            font-size: clamp(1.75rem, 3vw, 2.25rem);
+            font-weight: 700;
+            color: var(--accent-color);
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+        }
+
+        .insight-desc {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .insight-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Image slot placeholder */
+        .image-slot {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #F5F0EA;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9B8B7A;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 2px dashed #D9CEBF;
+            margin: 1.5rem 0;
+        }
+
+        .image-slot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 640px) {
+            .image-slot-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Decision blocks */
+        .decision-block {
+            padding: 1.75rem 2rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--accent-color);
+            margin-bottom: 1.25rem;
+        }
+
+        .decision-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .decision-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin: 0 0 0.75rem;
+        }
+
+        .decision-body {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Tag list */
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            background: rgba(255, 107, 107, 0.08);
+            color: var(--accent-color);
+            border-radius: 100px;
+            border: 1px solid rgba(255, 107, 107, 0.2);
+        }
+
+        /* Reflection two-column */
+        .reflection-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .reflection-col {
+            padding: 1.75rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .reflection-col h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin: 0 0 1rem;
+        }
+
+        .reflection-col h4.kept {
+            color: #059669;
+        }
+
+        .reflection-col h4.changed {
+            color: #d97706;
+        }
+
+        .reflection-col ul {
+            padding-left: 1.25rem;
+            margin: 0;
+        }
+
+        .reflection-col li {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 640px) {
+            .reflection-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Process steps */
+        .process-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 2rem 0;
+        }
+
+        .process-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.25rem 1.5rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .step-num {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1px;
+        }
+
+        .step-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        .step-text strong {
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        /* Tip cards */
+        .tip-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .tip-card {
+            padding: 1.25rem 1.5rem;
+            background: rgba(255, 107, 107, 0.04);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 107, 107, 0.15);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .tip-label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin-bottom: 0.4rem;
+        }
+
+        .tip-text {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        @media (max-width: 640px) {
+            .tip-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Dark mode overrides */
+        body.dark-mode .meta-row,
+        body.dark-mode .insight-item,
+        body.dark-mode .decision-block,
+        body.dark-mode .process-step,
+        body.dark-mode .reflection-col {
+            background: #2d2d2d;
+            border-color: #404040;
+        }
+
+        body.dark-mode .image-slot {
+            background: #2a2520;
+            border-color: #4a3f35;
+            color: #a89888; /* was #7a6a5a — 2.82:1 FAIL → 5.43:1 PASS (WCAG AA) */
+        }
+
+        body.dark-mode .tag {
+            background: rgba(255, 123, 123, 0.1);
+            color: var(--dark-accent-color);
+            border-color: rgba(255, 123, 123, 0.2);
+        }
+
+        body.dark-mode .meta-value,
+        body.dark-mode .decision-title {
+            color: var(--dark-text-color);
+        }
+
+        body.dark-mode .insight-desc,
+        body.dark-mode .decision-body,
+        body.dark-mode .reflection-col li {
+            color: var(--dark-text-secondary);
+        }
+
+        body.dark-mode .reflection-col h4.kept {
+            color: #34d399;
+        }
+
+        body.dark-mode .reflection-col h4.changed {
+            color: #fbbf24;
+        }
+
+        /* Responsive hero/content padding fix */
+        .project-hero {
+            padding-left: clamp(1.25rem, 4vw, 5rem) !important;
+            padding-right: clamp(1.25rem, 4vw, 5rem) !important;
+        }
+
+        .project-details {
+            padding-left: clamp(1.25rem, 4vw, 5rem) !important;
+            padding-right: clamp(1.25rem, 4vw, 5rem) !important;
+        }
+
+        @media (max-width: 1200px) {
+
+            .project-hero,
+            .project-details {
+                padding-left: 1.5rem !important;
+                padding-right: 1.5rem !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .project-hero,
+            .project-details {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+
+            .insight-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .insight-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Live link button in hero */
+        .hero-live-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.6rem 1.25rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #fff;
+            background: var(--accent-color);
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: opacity 200ms ease, transform 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .hero-live-link:hover {
+            opacity: 0.88;
+            transform: translateY(-2px);
+        }
+
+        /* Constraint list */
+        .constraint-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+
+        .constraint-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 1rem 1.25rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .constraint-item::before {
+            content: "—";
+            flex-shrink: 0;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        body.dark-mode .constraint-item {
+            background: #2d2d2d;
+            border-color: #404040;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero-live-link {
+                transition: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="preload">
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <div class="nav-content">
+            <a href="index.html" class="logo">Sunmin Kim.</a>
+            <ul class="nav-links">
+                <li><a href="index.html#work">Work</a></li>
+                <li><a href="index.html#about">About me</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                <span class="sun-icon">☀️</span>
+                <span class="moon-icon">🌙</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="project-container">
+        <!-- Aside in-page navigation -->
+        <aside class="in-page-nav">
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#problem">Problem</a></li>
+                <li><a href="#constraints">Constraints</a></li>
+                <li><a href="#process">Process</a></li>
+                <li><a href="#decision">Decision</a></li>
+                <li><a href="#outcome">Outcome</a></li>
+                <li><a href="#reflection">Reflection</a></li>
+            </ul>
+        </aside>
+
+        <main class="project-main-content">
+            <!-- Project Hero -->
+            <section class="project-hero">
+                <div class="project-hero-content">
+                    <div class="project-meta">
+                        <a href="index.html#work" class="back-link">← 홈으로</a>
+                    </div>
+                    <span class="project-tag">Product Design · AI-native Build · 2026</span>
+                    <h1>dots</h1>
+                    <p class="project-impact">흩어진 정보를 한 곳에서. RSS의 구조, 디자인의 감각.</p>
+                    <p
+                        style="font-size: 1rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1.5rem; word-break: keep-all;">
+                        Figma Make, Claude Code, Vercel을 활용해 아이디어를 72시간 만에 작동하는 서비스로 만든 AI-native 빌드 경험.
+                    </p>
+
+                    <a href="https://dots2-2.vercel.app/" target="_blank" class="hero-live-link"
+                        aria-label="dots 라이브 서비스 바로가기">
+                        Live ↗
+                    </a>
+
+                    <div class="project-image-hero">
+                        <img src="fernweh/dots/hero.svg" alt="dots 서비스 메인 화면">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Project Details -->
+            <section class="project-details">
+                <div class="project-content">
+
+                    <div id="overview" class="project-overview">
+                        <h2>개요</h2>
+                        <p>흩어진 정보를 한 곳에서. RSS의 구조, 사용성과 심미성을 부여하고자 시작한 프로젝트</p>
+
+                        <div class="project-specs">
+                            <div class="spec-item">
+                                <h3>Solo Project</h3>
+                                <p>1인 + AI tools</p>
+                                <p>✅ 기여도 100%</p>
+                            </div>
+                            <div class="spec-item">
+                                <h3>Period</h3>
+                                <p>2026.02</p>
+                            </div>
+                            <div class="spec-item">
+                                <h3>Tools</h3>
+                                <p>Figma Make<br>Claude Code<br>Github<br>Vercel<br>Supabase</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- ① Problem -->
+                    <div id="problem" class="project-section">
+                        <span class="section-label">01. Problem</span>
+                        <h2>정보 과부하 시대, 사람들은 지쳐있다</h2>
+                        <p>뉴스레터, 블로그, 소셜미디어, 유튜브 — 매일 이곳저곳을 전전하며 정보를 수집하는 것 자체가 피로다. RSS는 답이 될 수 있었지만, 2024년의 사용자에게 RSS
+                            리더는 너무 기술적이고 너무 못생겼다.</p>
+                        <p>dots는 이 질문에서 출발했다: "RSS의 구조를 가지되, 사람들이 실제로 쓰고 싶은 인터페이스라면?"</p>
+
+                        <div class="constraint-list">
+                            <div class="constraint-item">URL을 등록하면 관심 아티클이 자동 분류·정리</div>
+                            <div class="constraint-item">원하는 알림 주기로 push notification 또는 이메일 발송</div>
+                            <div class="constraint-item">비슷한 정보를 소비하는 사람들과 연결, 피드 공유</div>
+                        </div>
+                    </div>
+
+                    <!-- ② Constraints -->
+                    <div id="constraints" class="project-section">
+                        <span class="section-label">02. Constraints</span>
+                        <h2>혼자, 빠르게, 작동하는 것을 만들어야 했다</h2>
+
+                        <div class="constraint-list">
+                            <div class="constraint-item">1인 디자이너·개발자 (기획/디자인/프론트 전담)</div>
+                            <div class="constraint-item">아이디어 검증이 목적 → 완성보다 속도 우선</div>
+                            <div class="constraint-item">백엔드 없이 프론트 MVP로 개념 증명</div>
+                            <div class="constraint-item">사용 툴: Figma Make, Claude Code, Vercel</div>
+                        </div>
+                    </div>
+
+                    <!-- ③ Process -->
+                    <div id="process" class="project-section">
+                        <span class="section-label">03. Process</span>
+                        <h2>Figma Make → Claude Code → Vercel, 72시간 빌드 루프</h2>
+                        <p>아이디어가 생기면 바로 Figma Make로 UI 초안을 시각화했다. 목업이 아닌 실제 인터랙션을 전제로 그렸다. 완성된 컴포넌트를 Claude Code에 붙여넣어
+                            HTML/CSS/JS 코드로 변환하고, 즉시 Vercel로 배포해 실제 URL에서 확인했다.</p>
+
+                        <div class="decision-block">
+                            <p class="decision-label">핵심 원칙</p>
+                            <p class="decision-title">"피드백을 파일이 아닌 URL로 받는다."</p>
+                            <p class="decision-body">Figma 링크 대신 실제 서비스 URL을 공유하면 피드백의 질이 달라진다. 어떤 버튼이 눌리는지, 어떤 텍스트에서
+                                멈추는지가 보인다.</p>
+                        </div>
+
+                        <div class="process-steps">
+                            <div class="process-step">
+                                <span class="step-num">1</span>
+                                <p class="step-text"><strong>Figma Make</strong> — 아이디어를 프롬프트로 UI 초안 시각화 (목업이 아닌 인터랙션
+                                    전제)</p>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">2</span>
+                                <p class="step-text"><strong>Claude Code</strong> — 완성된 컴포넌트를 HTML/CSS/JS로 변환</p>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">3</span>
+                                <p class="step-text"><strong>Vercel</strong> — 즉시 배포 후 실제 URL에서 피드백 수집</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ④ Decision -->
+                    <div id="decision" class="project-section">
+                        <span class="section-label">04. Decision</span>
+                        <h2>백엔드를 미루고 UX 검증에 집중</h2>
+                        <p>초기엔 실제 RSS 피드 파싱 + 알림 발송 기능까지 구현하려 했다.</p>
+
+                        <div class="decision-block">
+                            <p class="decision-label">트레이드오프</p>
+                            <p class="decision-title">백엔드 구현 2주 vs. UI/UX 검증 3일</p>
+                            <p class="decision-body">결론: 백엔드를 미루고 정적 데이터로 UI 흐름을 먼저 검증했다. 핵심 질문은 "기능이 동작하는가"가 아니라 "이
+                                인터페이스가 쓰고 싶은가"였기 때문이다.</p>
+                        </div>
+
+                        <p>이 판단 덕분에 72시간 안에 실제 URL을 만들고, 첫 피드백을 받을 수 있었다.</p>
+                    </div>
+
+                    <!-- ⑤ Outcome -->
+                    <div id="outcome" class="project-section">
+                        <span class="section-label">05. Outcome</span>
+                        <h2>아이디어가 URL이 됐다</h2>
+
+                        <div class="insight-grid">
+                            <div class="insight-item">
+                                <span class="insight-number">72h</span>
+                                <p class="insight-desc">Figma Make → Claude Code → Vercel 전 과정을 1인이 72시간 내 완료</p>
+                            </div>
+                            <div class="insight-item">
+                                <span class="insight-number">Live ↗</span>
+                                <p class="insight-desc"><a href="https://dots2-2.vercel.app/" target="_blank"
+                                        style="color: var(--accent-color); text-decoration: none;">dots2-2.vercel.app</a>
+                                    — 실제 배포된 서비스 URL</p>
+                            </div>
+                            <div class="insight-item">
+                                <span class="insight-number">Next</span>
+                                <p class="insight-desc">RSS 실제 파싱 + 알림 기능 구현 (백엔드 연동 예정)</p>
+                            </div>
+                        </div>
+
+                        <div class="tag-list">
+                            <span class="tag">AI-native Workflow</span>
+                            <span class="tag">Figma Make</span>
+                            <span class="tag">Claude Code</span>
+                            <span class="tag">Vercel</span>
+                            <span class="tag">RSS</span>
+                            <span class="tag">1인 풀스택</span>
+                        </div>
+                    </div>
+
+                    <!-- ⑥ Reflection -->
+                    <div id="reflection" class="project-section">
+                        <span class="section-label">06. Reflection</span>
+                        <h2>디자이너가 배포까지 한다는 것의 의미</h2>
+                        <p>dots를 만들면서 확인한 것: 디자이너가 직접 코드를 배포하면 판단의 속도가 달라진다. Figma 파일에서 "이게 맞나?"를 고민하는 대신, URL을 열고 직접
+                            눌러보면 된다.</p>
+                        <p>AI 툴은 이 속도를 가능하게 한 인프라였다. Figma Make는 아이디어를 컴포넌트로, Claude Code는 컴포넌트를 코드로, Vercel은 코드를 서비스로
+                            만들었다.</p>
+
+                        <!-- <div class="reflection-grid">
+                            <div class="reflection-col">
+                                <h4 class="kept">✓ 확인된 것</h4>
+                                <ul>
+                                    <li>디자이너가 직접 배포하면 판단 속도가 달라진다</li>
+                                    <li>AI 툴 3개로 아이디어→서비스 72시간 달성 가능</li>
+                                    <li>URL 피드백이 Figma 링크 피드백보다 구체적이다</li>
+                                </ul>
+                            </div>
+                            <div class="reflection-col">
+                                <h4 class="changed">△ 다음엔 다르게 할 것</h4>
+                                <ul>
+                                    <li>초기 단계에서 실제 사용자 1명에게 URL을 주고 화면 녹화를 받았더라면 방향 결정이 더 빨랐을 것</li>
+                                    <li>백엔드 연동 타임라인을 처음부터 스펙에 포함시키기</li>
+                                </ul>
+                            </div>
+                        </div> -->
+                    </div>
+
+                </div>
+
+                <div class="project-navigation">
+                    <a href="otium.html" class="nav-project prev">
+                        <span>이전 프로젝트</span>
+                        <h3>← 오티움</h3>
+                    </a>
+                    <a href="aiprojects.html" class="nav-project">
+                        <span>다음 프로젝트</span>
+                        <h3>AI Projects →</h3>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <p>© 2026 Sunmin Kim • All rights reserved</p>
+    </footer>
+
+    <script src="./script.js"></script>
+</body>
+
+</html>

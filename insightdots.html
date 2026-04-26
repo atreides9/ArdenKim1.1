@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인사이트닷츠 | Arden Kim</title>
+    <link rel="icon" type="image/svg+xml" href="./fernweh/favicon/favicon1.2.svg">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/dark-mode.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600&family=Diphylleia&family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600&family=Bagel+Fat+One&display=swap"
+        rel="stylesheet">
+
+    <!-- Prevent dark mode flash -->
+    <script>
+        (function () {
+            const theme = localStorage.getItem('theme');
+            if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark-mode-loading');
+                document.body.classList.add('dark-mode');
+            }
+        })();
+    </script>
+
+    <style>
+        /* Prevent flash during page load */
+        .dark-mode-loading {
+            background-color: #121212 !important;
+            color: #e0e0e0 !important;
+        }
+
+        /* Smooth transitions for theme changes */
+        * {
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+        }
+
+        /* Disable transitions during page load to prevent flash */
+        .preload * {
+            transition: none !important;
+        }
+
+        /* Hero tag line */
+        .project-tag {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--accent-color);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Impact line under h1 */
+        .project-impact {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            margin-bottom: 2rem;
+            word-break: keep-all;
+        }
+
+        /* Meta row — 4 columns */
+        .meta-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+            padding: 1.75rem 2rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .meta-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+        }
+
+        .meta-value {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .meta-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .meta-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Section label (small caps above h2) */
+        .section-label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Insight grid — 3 columns */
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .insight-item {
+            padding: 1.75rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .insight-number {
+            display: block;
+            font-size: clamp(1.75rem, 3vw, 2.25rem);
+            font-weight: 700;
+            color: var(--accent-color);
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+        }
+
+        .insight-desc {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .insight-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Image slot placeholder */
+        .image-slot {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #F5F0EA;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9B8B7A;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 2px dashed #D9CEBF;
+            margin: 1.5rem 0;
+        }
+
+        .image-slot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 640px) {
+            .image-slot-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Decision blocks */
+        .decision-block {
+            padding: 1.75rem 2rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--accent-color);
+            margin-bottom: 1.25rem;
+        }
+
+        .decision-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .decision-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin: 0 0 0.75rem;
+        }
+
+        .decision-body {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Tag list */
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            background: rgba(255, 107, 107, 0.08);
+            color: var(--accent-color);
+            border-radius: 100px;
+            border: 1px solid rgba(255, 107, 107, 0.2);
+        }
+
+        /* Process steps */
+        .process-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 2rem 0;
+        }
+
+        .process-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.25rem 1.5rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .step-num {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1px;
+        }
+
+        .step-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        .step-text strong {
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        /* Tip cards */
+        .tip-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .tip-card {
+            padding: 1.25rem 1.5rem;
+            background: rgba(255, 107, 107, 0.04);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 107, 107, 0.15);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .tip-label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin-bottom: 0.4rem;
+        }
+
+        .tip-text {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        @media (max-width: 640px) {
+            .tip-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Dark mode overrides */
+        body.dark-mode .meta-row,
+        body.dark-mode .insight-item,
+        body.dark-mode .decision-block,
+        body.dark-mode .process-step {
+            background: #2d2d2d;
+            border-color: #404040;
+        }
+
+        body.dark-mode .image-slot {
+            background: #2a2520;
+            border-color: #4a3f35;
+            color: #a89888;
+        }
+
+        body.dark-mode .tag {
+            background: rgba(255, 123, 123, 0.1);
+            color: var(--dark-accent-color);
+            border-color: rgba(255, 123, 123, 0.2);
+        }
+
+        body.dark-mode .meta-value,
+        body.dark-mode .decision-title {
+            color: var(--dark-text-color);
+        }
+
+        body.dark-mode .insight-desc,
+        body.dark-mode .decision-body {
+            color: var(--dark-text-secondary);
+        }
+
+        /* Constraint list */
+        .constraint-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+
+        .constraint-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 1rem 1.25rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .constraint-item::before {
+            content: "—";
+            flex-shrink: 0;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        body.dark-mode .constraint-item {
+            background: #2d2d2d;
+            border-color: #404040;
+        }
+
+        /* Responsive hero/content padding fix */
+        .project-hero {
+            padding-left: clamp(1.25rem, 4vw, 5rem) !important;
+            padding-right: clamp(1.25rem, 4vw, 5rem) !important;
+        }
+
+        .project-details {
+            padding-left: clamp(1.25rem, 4vw, 5rem) !important;
+            padding-right: clamp(1.25rem, 4vw, 5rem) !important;
+        }
+
+        @media (max-width: 1200px) {
+
+            .project-hero,
+            .project-details {
+                padding-left: 1.5rem !important;
+                padding-right: 1.5rem !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .project-hero,
+            .project-details {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+
+            .insight-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .insight-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Live link button in hero */
+        .hero-live-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.6rem 1.25rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #fff;
+            background: var(--accent-color);
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: opacity 200ms ease, transform 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .hero-live-link:hover {
+            opacity: 0.88;
+            transform: translateY(-2px);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero-live-link {
+                transition: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="preload">
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <div class="nav-content">
+            <a href="index.html" class="logo">Sunmin Kim.</a>
+            <ul class="nav-links">
+                <li><a href="index.html#work">Work</a></li>
+                <li><a href="index.html#about">About me</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                <span class="sun-icon">☀️</span>
+                <span class="moon-icon">🌙</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="project-container">
+        <!-- Aside in-page navigation -->
+        <aside class="in-page-nav">
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#problem">Problem</a></li>
+                <li><a href="#system">System</a></li>
+                <li><a href="#process">Process</a></li>
+                <li><a href="#outcome">Outcome</a></li>
+            </ul>
+        </aside>
+
+        <main class="project-main-content">
+            <!-- Project Hero -->
+            <section class="project-hero">
+                <div class="project-hero-content">
+                    <div class="project-meta">
+                        <a href="index.html#work" class="back-link">← 홈으로</a>
+                    </div>
+                    <span class="project-tag">2026 · Product Design · AI-Native Build · React</span>
+                    <h1>인사이트닷츠</h1>
+                    <p class="project-impact">잔뜩 모으고 확인하지 않았던 노트를 캔버스에서. AI로 키워드 추출. 아이디어를 그래프로. 내 노트와 생각에서 통찰력을 찾을 수 있다.</p>
+                    <p
+                        style="font-size: 1rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1.5rem; word-break: keep-all;">
+                        Figma Make로 디자인하고 Claude Code로 구현한 AI-native 지식 관리 앱. 캔버스 기반 노트 카드, D3 force 그래프, 디자인 토큰 시스템을 72시간 안에 프로덕션 배포.
+                    </p>
+
+                    <a href="https://insight-dots-v1.vercel.app/" target="_blank" class="hero-live-link"
+                        aria-label="인사이트닷츠 라이브 서비스 바로가기">
+                        Live ↗
+                    </a>
+
+                    <div class="project-image-hero">
+                        <img src="fernweh/insightdots/hero.png" alt="인사이트닷츠 서비스 메인 화면">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Project Details -->
+            <section class="project-details">
+                <div class="project-content">
+
+                    <!-- 01. Overview -->
+                    <div id="overview" class="project-overview">
+                        <span class="section-label">01. Overview</span>
+                        <h2>개요</h2>
+
+                        <div class="project-specs">
+                            <div class="spec-item">
+                                <h3>Solo Project</h3>
+                                <p>1인 + AI tools</p>
+                                <p>✅ 기여도 100%</p>
+                            </div>
+                            <div class="spec-item">
+                                <h3>Period</h3>
+                                <p>2026.04</p>
+                            </div>
+                            <div class="spec-item">
+                                <h3>Tools</h3>
+                                <p>Figma Make<br>Claude Code<br>React+TypeScript<br>D3<br>Vercel</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 02. Problem -->
+                    <div id="problem" class="project-section">
+                        <span class="section-label">02. Problem</span>
+                        <h2>흩어진 노트, 보이지 않는 연결</h2>
+                        <p>아이디어는 선형적으로 쌓이지 않는다. 폴더 구조로는 맥락이 사라지고, 태그만으로는 관계가 보이지 않는다.</p>
+                        <p>기존 노트 앱들이 놓친 것: 노트 사이의 관계 자체를 시각화하는 인터페이스. Idea driven by 안드레아 카파시 트윗</p>
+
+                        <div class="constraint-list">
+                            <div class="constraint-item">노트가 많아질수록 연결고리를 찾기가 어려워진다</div>
+                            <div class="constraint-item">폴더/태그 기반 분류는 맥락 정보를 손실한다</div>
+                            <div class="constraint-item">아이디어 간 관계를 한눈에 파악할 수 있는 도구가 없다</div>
+                        </div>
+                    </div>
+
+                    <!-- 03. System -->
+                    <div id="system" class="project-section">
+                        <span class="section-label">03. System</span>
+                        <h2>디자인 토큰부터 배포까지, 직접 설계한 시스템</h2>
+                        <p>Typography, Color, Layout Grid — CSS 변수 기반 디자인 토큰(theme.css)을 직접 정의하고 Tailwind @theme inline으로 연결. 컴포넌트 단위 분리(NodeCard, Sidebar, ConnectionLine 등)로 확장 가능한 구조 설계.</p>
+
+                        <div class="tip-grid">
+                            <div class="tip-card">
+                                <span class="tip-label">Design Token</span>
+                                <p class="tip-text">배경·텍스트·브랜드·노드 색상을 CSS 변수로 정의, 다크모드 기반 일관성 확보</p>
+                            </div>
+                            <div class="tip-card">
+                                <span class="tip-label">Component</span>
+                                <p class="tip-text">NodeCard, Tag, Modal 등 재사용 컴포넌트로 분리, Props interface 타입 정의</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 04. Process -->
+                    <div id="process" class="project-section">
+                        <span class="section-label">04. Process</span>
+                        <h2>Figma Make → Claude Code → Vercel 빌드 → 수정 & 재배포</h2>
+
+                        <div class="process-steps">
+                            <div class="process-step">
+                                <span class="step-num">1</span>
+                                <p class="step-text"><strong>Figma Make</strong> — UI 컴포넌트 시각화 및 디자인 시스템 초안</p>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">2</span>
+                                <p class="step-text"><strong>Claude Code</strong> — React+TypeScript 컴포넌트 변환 및 D3 그래프 구현</p>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">3</span>
+                                <p class="step-text"><strong>반복</strong> — 브라우저에서 직접 확인하며 프롬프트 수정</p>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">4</span>
+                                <p class="step-text"><strong>Vercel</strong> — 프로덕션 배포 및 실제 URL 피드백</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 05. Outcome -->
+                    <div id="outcome" class="project-section">
+                        <span class="section-label">05. Outcome</span>
+                        <h2>점으로 시작한 아이디어가 그래프가 되고, 질문을 통해 통찰력을 얻는다.</h2>
+
+                        <div class="insight-grid">
+                            <div class="insight-item">
+                                <span class="insight-number">72h</span>
+                                <p class="insight-desc">Figma Make → React 앱 프로덕션 배포까지 1인 완료</p>
+                            </div>
+                            <div class="insight-item">
+                                <span class="insight-number">15+</span>
+                                <p class="insight-desc">NodeCard, Sidebar, GraphView 등 재사용 컴포넌트 수</p>
+                            </div>
+                            <div class="insight-item">
+                                <span class="insight-number">Live ↗</span>
+                                <p class="insight-desc"><a href="https://insight-dots-v1.vercel.app/" target="_blank"
+                                        style="color: var(--accent-color); text-decoration: none;">insight-dots-v1.vercel.app</a>
+                                    — 실제 배포 URL</p>
+                            </div>
+                        </div>
+
+                        <div class="tag-list">
+                            <span class="tag">AI-Native Workflow</span>
+                            <span class="tag">React+TypeScript</span>
+                            <span class="tag">D3 Graph</span>
+                            <span class="tag">Design Token</span>
+                            <span class="tag">Figma Make</span>
+                            <span class="tag">Claude Code</span>
+                            <span class="tag">Vercel</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Project Navigation -->
+                <div class="project-navigation">
+                    <a href="dots.html" class="nav-project prev">
+                        <span>이전 프로젝트</span>
+                        <h3>← dots</h3>
+                    </a>
+                    <a href="aiprojects.html" class="nav-project">
+                        <span>다음 프로젝트</span>
+                        <h3>AI Projects →</h3>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <p>© 2026 Sunmin Kim • All rights reserved</p>
+    </footer>
+
+    <script src="./script.js"></script>
+</body>
+
+</html>

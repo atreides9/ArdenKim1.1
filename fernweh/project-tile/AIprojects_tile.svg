@@ -1,0 +1,27 @@
+<svg width="960" height="480" viewBox="0 0 960 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_n_706_24999)">
+<g clip-path="url(#paint0_diamond_706_24999_clip_path)" data-figma-skip-parse="true"><g transform="matrix(-0.5 0.2595 -0.17695 -0.340945 480 240)"><rect x="0" y="0" width="954.936" height="1133.69" fill="url(#paint0_diamond_706_24999)" opacity="0.5" shape-rendering="crispEdges"/><rect x="0" y="0" width="954.936" height="1133.69" transform="scale(1 -1)" fill="url(#paint0_diamond_706_24999)" opacity="0.5" shape-rendering="crispEdges"/><rect x="0" y="0" width="954.936" height="1133.69" transform="scale(-1 1)" fill="url(#paint0_diamond_706_24999)" opacity="0.5" shape-rendering="crispEdges"/><rect x="0" y="0" width="954.936" height="1133.69" transform="scale(-1)" fill="url(#paint0_diamond_706_24999)" opacity="0.5" shape-rendering="crispEdges"/></g></g><rect width="960" height="480" data-figma-gradient-fill="{&#34;type&#34;:&#34;GRADIENT_DIAMOND&#34;,&#34;stops&#34;:[{&#34;color&#34;:{&#34;r&#34;:0.80000001192092896,&#34;g&#34;:0.0,&#34;b&#34;:1.0,&#34;a&#34;:1.0},&#34;position&#34;:0.0},{&#34;color&#34;:{&#34;r&#34;:0.0,&#34;g&#34;:0.016666667535901070,&#34;b&#34;:1.0,&#34;a&#34;:1.0},&#34;position&#34;:0.90290254354476929}],&#34;stopsVar&#34;:[{&#34;color&#34;:{&#34;r&#34;:0.80000001192092896,&#34;g&#34;:0.0,&#34;b&#34;:1.0,&#34;a&#34;:1.0},&#34;position&#34;:0.0},{&#34;color&#34;:{&#34;r&#34;:0.0,&#34;g&#34;:0.016666667535901070,&#34;b&#34;:1.0,&#34;a&#34;:1.0},&#34;position&#34;:0.90290254354476929}],&#34;transform&#34;:{&#34;m00&#34;:-1000.0000610351562,&#34;m01&#34;:-353.90078735351562,&#34;m02&#34;:1156.9504394531250,&#34;m10&#34;:519.00006103515625,&#34;m11&#34;:-681.88977050781250,&#34;m12&#34;:321.44485473632812},&#34;opacity&#34;:0.50,&#34;blendMode&#34;:&#34;NORMAL&#34;,&#34;visible&#34;:true}"/>
+</g>
+<defs>
+<filter id="filter0_n_706_24999" x="0" y="0" width="960" height="480" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feTurbulence type="fractalNoise" baseFrequency="1 1" stitchTiles="stitch" numOctaves="3" result="noise" seed="4051" />
+<feColorMatrix in="noise" type="luminanceToAlpha" result="alphaNoise" />
+<feComponentTransfer in="alphaNoise" result="coloredNoise1">
+<feFuncA type="discrete" tableValues="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 "/>
+</feComponentTransfer>
+<feComposite operator="in" in2="shape" in="coloredNoise1" result="noise1Clipped" />
+<feFlood flood-color="rgba(49, 49, 49, 0.25)" result="color1Flood" />
+<feComposite operator="in" in2="noise1Clipped" in="color1Flood" result="color1" />
+<feMerge result="effect1_noise_706_24999">
+<feMergeNode in="shape" />
+<feMergeNode in="color1" />
+</feMerge>
+</filter>
+<clipPath id="paint0_diamond_706_24999_clip_path"><rect width="960" height="480"/></clipPath><linearGradient id="paint0_diamond_706_24999" x1="0" y1="0" x2="500" y2="500" gradientUnits="userSpaceOnUse">
+<stop stop-color="#CC00FF"/>
+<stop offset="0.902903" stop-color="#0004FF"/>
+</linearGradient>
+</defs>
+</svg>

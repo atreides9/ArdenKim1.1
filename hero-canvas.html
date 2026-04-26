@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sunmin Kim — Product Designer</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── Reset & Base ─────────────────────────────────────────────────────── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg:          #F8FAFB;
+      --ink:         #0F172A;
+      --ink-muted:   #64748B;
+      --ink-subtle:  #94A3B8;
+      --blue:        #1E6FD9;
+      --blue-dim:    rgba(30, 111, 217, 0.08);
+      --blue-border: rgba(30, 111, 217, 0.3);
+
+      --font-serif:  'Playfair Display', Georgia, serif;
+      --font-sans:   'Inter', system-ui, sans-serif;
+
+      /* 8px grid tokens */
+      --sp-2:  8px;
+      --sp-3:  12px;
+      --sp-4:  16px;
+      --sp-6:  24px;
+      --sp-8:  32px;
+      --sp-12: 48px;
+      --sp-16: 64px;
+
+      --radius-sm: 8px;
+      --radius-md: 16px;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: var(--bg);
+      overflow: hidden;
+      font-family: var(--font-sans);
+      cursor: none;
+    }
+
+    /* ── Canvas — subtle background layer ────────────────────────────────── */
+    canvas {
+      position: fixed;
+      inset: 0;
+      display: block;
+      pointer-events: none;
+    }
+
+    /* ── Custom cursor ────────────────────────────────────────────────────── */
+    #cursor {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background: var(--blue);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      transition: transform 80ms ease, opacity 80ms ease;
+    }
+
+    #cursor.hover {
+      transform: translate(-50%, -50%) scale(2.5);
+      opacity: 0.6;
+    }
+
+    /* ── Hero layout ──────────────────────────────────────────────────────── */
+    #hero {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--sp-8);
+      z-index: 10;
+    }
+
+    .hero-inner {
+      max-width: 720px;
+      width: 100%;
+    }
+
+    /* ── Label chip ───────────────────────────────────────────────────────── */
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-2);
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: var(--sp-6);
+    }
+
+    .label::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+
+    /* ── Name ─────────────────────────────────────────────────────────────── */
+    .name {
+      font-family: var(--font-serif);
+      font-size: clamp(56px, 8vw, 96px);
+      font-weight: 700;
+      line-height: 1.0;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin-bottom: var(--sp-4);
+    }
+
+    /* thin accent rule under name */
+    .name-rule {
+      width: 56px;
+      height: 2px;
+      background: var(--blue);
+      margin-bottom: var(--sp-8);
+    }
+
+    /* ── Tagline ──────────────────────────────────────────────────────────── */
+    .tagline {
+      font-family: var(--font-sans);
+      font-size: clamp(15px, 1.8vw, 18px);
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--ink-muted);
+      max-width: 480px;
+      margin-bottom: var(--sp-12);
+    }
+
+    .tagline strong {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    /* ── CTA button ───────────────────────────────────────────────────────── */
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-3);
+      padding: 14px var(--sp-8);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--blue);
+      border: 1.5px solid var(--blue-border);
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      background: transparent;
+      letter-spacing: 0.02em;
+      transition: background 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  border-color 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  color 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .cta:hover {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+    }
+
+    .cta-arrow {
+      display: inline-block;
+      transition: transform 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .cta:hover .cta-arrow {
+      transform: translateX(4px);
+    }
+
+    /* ── Scroll hint ──────────────────────────────────────────────────────── */
+    #scroll-hint {
+      position: fixed;
+      bottom: var(--sp-8);
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--sp-2);
+      font-family: var(--font-sans);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-subtle);
+      z-index: 10;
+      opacity: 0;
+      animation: fadeInUp 600ms 1200ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    #scroll-hint .tick {
+      width: 1px;
+      height: 32px;
+      background: var(--ink-subtle);
+      animation: tickPulse 2s 1800ms ease-in-out infinite;
+    }
+
+    /* ── Entrance animations ──────────────────────────────────────────────── */
+    .label  { opacity: 0; animation: fadeInUp 500ms  200ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+    .name   { opacity: 0; animation: fadeInUp 600ms  400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+    .name-rule { opacity: 0; animation: expandRule 500ms 700ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+    .tagline { opacity: 0; animation: fadeInUp 550ms 750ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+    .cta    { opacity: 0; animation: fadeInUp 500ms 950ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes expandRule {
+      from { opacity: 0; width: 0; }
+      to   { opacity: 1; width: 56px; }
+    }
+
+    @keyframes tickPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50%       { opacity: 0.7; transform: scaleY(1.15); }
+    }
+
+    /* ── Reduced motion ───────────────────────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      .label, .name, .name-rule, .tagline, .cta, #scroll-hint {
+        animation: none;
+        opacity: 1;
+      }
+      .name-rule { width: 56px; }
+      .cta-arrow, .cta { transition: none; }
+    }
+
+    /* ── Mobile ───────────────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      #hero { align-items: flex-start; padding-top: 30vh; }
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="c"></canvas>
+  <div id="cursor"></div>
+
+  <!-- Hero content -->
+  <section id="hero" aria-label="Introduction">
+    <div class="hero-inner">
+      <p class="label">Product Designer · Healthcare AI</p>
+      <h1 class="name">Sunmin Kim</h1>
+      <div class="name-rule" aria-hidden="true"></div>
+      <p class="tagline">
+        Designing <strong>clarity</strong> for complex AI systems —<br>
+        where clinical precision meets human experience.
+      </p>
+      <a href="index.html" class="cta">
+        View Projects
+        <span class="cta-arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+  <div id="scroll-hint" aria-hidden="true">
+    <div class="tick"></div>
+  </div>
+
+  <script>
+    /* ── Canvas: dot grid + soft glow following mouse ─────────────────────── */
+    const canvas = document.getElementById('c');
+    const ctx    = canvas.getContext('2d');
+    const cursor = document.getElementById('cursor');
+
+    const C = {
+      bg:       '#F8FAFB',
+      dot:      'rgba(30, 111, 217, 0.10)',
+      glow:     'rgba(30, 111, 217, 0.06)',
+    };
+
+    const GRID = 40;   // dot grid spacing (5 × 8px grid)
+    const DOT  = 1.2;  // dot radius
+
+    let W, H;
+    const mouse = { x: -999, y: -999, tx: -999, ty: -999 };
+
+    /* Smooth mouse lerp */
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    /* Mouse tracking */
+    window.addEventListener('mousemove', e => {
+      mouse.tx = e.clientX;
+      mouse.ty = e.clientY;
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
+
+    /* Cursor hover effect on interactive elements */
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+
+    /* ── Draw loop ──────────────────────────────────────────────────────── */
+    function draw() {
+      requestAnimationFrame(draw);
+
+      /* Smooth cursor */
+      mouse.x = lerp(mouse.x, mouse.tx, 0.08);
+      mouse.y = lerp(mouse.y, mouse.ty, 0.08);
+
+      ctx.clearRect(0, 0, W, H);
+
+      /* Dot grid */
+      ctx.fillStyle = C.dot;
+      for (let x = GRID; x < W; x += GRID) {
+        for (let y = GRID; y < H; y += GRID) {
+          ctx.beginPath();
+          ctx.arc(x, y, DOT, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      /* Soft radial glow following mouse */
+      if (mouse.x > 0) {
+        const r = Math.min(W, H) * 0.55;
+        const g = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, r);
+        g.addColorStop(0,   'rgba(30, 111, 217, 0.07)');
+        g.addColorStop(0.4, 'rgba(30, 111, 217, 0.025)');
+        g.addColorStop(1,   'rgba(30, 111, 217, 0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, W, H);
+      }
+    }
+
+    draw();
+  </script>
+</body>
+
+</html>

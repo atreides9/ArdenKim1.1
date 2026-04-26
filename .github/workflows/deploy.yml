@@ -1,0 +1,26 @@
+name: Deploy to Public Repo
+
+on:
+  push:
+    branches:
+      - main # Private 레포의 main 브랜치에 push될 때 실행
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Deploy to Public Repo
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.DEPLOY_TOKEN }} # 이전에 등록한 Secret 이름
+        with:
+          source-directory: '.' # 현재 폴더 전체를 복사 (HTML, CSS, JS 파일들)
+          destination-github-username: 'atreides9'
+          destination-repository-name: '<portfolio-design-live>' # 예: my-portfolio-live
+          user-email: 'lovetung18@gmail.com'
+          target-branch: 'main'
