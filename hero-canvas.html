@@ -30,12 +30,10 @@
       display: block;
     }
 
-    #cur {
+    #mickey-cursor {
       position: fixed;
-      width: 8px;
-      height: 8px;
-      background: #1a1a18;
-      border-radius: 50%;
+      width: 72px;
+      height: 72px;
       pointer-events: none;
       transform: translate(-50%, -50%);
       z-index: 9999;
@@ -45,11 +43,30 @@
 
 <body>
   <canvas id="c"></canvas>
-  <div id="cur"></div>
+  <div id="mickey-cursor">
+    <!-- Open hand: 4 fingers extended -->
+    <svg id="hand-open" viewBox="0 0 72 72" width="72" height="72" xmlns="http://www.w3.org/2000/svg">
+      <rect x="11" y="34" width="50" height="30" rx="12" fill="white" stroke="#1a1a18" stroke-width="3"/>
+      <rect x="56" y="39" width="13" height="19" rx="6.5" fill="white" stroke="#1a1a18" stroke-width="3"/>
+      <rect x="11" y="14" width="11" height="26" rx="5.5" fill="white" stroke="#1a1a18" stroke-width="3"/>
+      <rect x="24" y="8"  width="11" height="32" rx="5.5" fill="white" stroke="#1a1a18" stroke-width="3"/>
+      <rect x="37" y="6"  width="11" height="34" rx="5.5" fill="white" stroke="#1a1a18" stroke-width="3"/>
+      <rect x="50" y="8"  width="11" height="32" rx="5.5" fill="white" stroke="#1a1a18" stroke-width="3"/>
+    </svg>
+    <!-- Closed hand: knuckle bumps + fist -->
+    <svg id="hand-closed" viewBox="0 0 72 72" width="72" height="72" xmlns="http://www.w3.org/2000/svg" style="display:none">
+      <rect x="9"  y="30" width="54" height="34" rx="12"  fill="white" stroke="#1a1a18" stroke-width="3"/>
+      <rect x="56" y="34" width="13" height="14" rx="6.5" fill="white" stroke="#1a1a18" stroke-width="3"/>
+      <rect x="11" y="22" width="11" height="14" rx="5.5" fill="white" stroke="#1a1a18" stroke-width="3"/>
+      <rect x="24" y="18" width="11" height="18" rx="5.5" fill="white" stroke="#1a1a18" stroke-width="3"/>
+      <rect x="37" y="16" width="11" height="20" rx="5.5" fill="white" stroke="#1a1a18" stroke-width="3"/>
+      <rect x="50" y="18" width="11" height="18" rx="5.5" fill="white" stroke="#1a1a18" stroke-width="3"/>
+    </svg>
+  </div>
   <script>
     const canvas = document.getElementById('c');
     const ctx = canvas.getContext('2d');
-    const cur = document.getElementById('cur');
+    const mickeyEl = document.getElementById('mickey-cursor');
     let W, H;
 
     const BG = '#f0ede4';
@@ -62,7 +79,7 @@
 
     window.addEventListener('mousemove', e => {
       mouse.x = e.clientX; mouse.y = e.clientY;
-      cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
+      mickeyEl.style.left = e.clientX + 'px'; mickeyEl.style.top = e.clientY + 'px';
       if (dragTarget) {
         dragTarget.x = e.clientX - dragOffX;
         dragTarget.y = e.clientY - dragOffY;
@@ -100,6 +117,16 @@
           ob._pressing = true; dirty = true;
         }
       }
+    });
+
+    // Mickey cursor grip animation
+    window.addEventListener('mousedown', () => {
+      document.getElementById('hand-open').style.display = 'none';
+      document.getElementById('hand-closed').style.display = '';
+    });
+    window.addEventListener('mouseup', () => {
+      document.getElementById('hand-open').style.display = '';
+      document.getElementById('hand-closed').style.display = 'none';
     });
 
     // ── corpus ────────────────────────────────────────────────────────────────
