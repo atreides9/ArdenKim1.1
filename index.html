@@ -1049,6 +1049,44 @@
             });
         })();
     </script>
+    <script>
+        (function () {
+          const variants = {
+            default: {
+              h1: '데이터가 말하는 문제를,<br>AI와 UX로 풀어냅니다.',
+              sub: '사용자 데이터를 분석하고, AI를 설계에 녹여, 작동하는 서비스로 출시합니다.'
+            },
+            ai: {
+              h1: 'AI 서비스를<br>0에서 1로 만듭니다.',
+              sub: 'AI 서비스 기획부터 배포까지 — 혼자 설계하고, 직접 출시합니다.'
+            },
+            medical: {
+              h1: 'Designing clarity<br>for complex AI systems.',
+              sub: 'Where clinical precision meets human experience.'
+            },
+            platform: {
+              h1: '플랫폼의 복잡함을,<br>사용자의 언어로 풀어냅니다.',
+              sub: '데이터 기반 UX 설계와 AI 통합으로 플랫폼 경험을 재정의합니다.'
+            },
+            lined: { iframe: './hero-canvas.html' }
+          };
+
+          const v = new URLSearchParams(window.location.search).get('v') || 'default';
+          const config = variants[v] || variants.default;
+
+          const heroSection = document.getElementById('hero');
+
+          if (config.iframe) {
+            heroSection.innerHTML = `<iframe src="${config.iframe}" style="width:100%;height:100vh;border:none;display:block;" scrolling="no"></iframe>`;
+            heroSection.style.cssText = 'width:100%;height:100vh;position:relative;overflow:hidden;padding:0;';
+          } else {
+            const h1 = heroSection.querySelector('.reveal-text');
+            const sub = heroSection.querySelector('.subtitle');
+            if (h1) h1.innerHTML = config.h1;
+            if (sub) sub.textContent = config.sub;
+          }
+        })();
+    </script>
 </body>
 
 </html>
