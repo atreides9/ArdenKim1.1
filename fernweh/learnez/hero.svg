@@ -1,0 +1,71 @@
+<svg width="1600" height="980" viewBox="0 0 1600 980" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="980" rx="48" fill="#F6F0DF"/>
+  <circle cx="230" cy="170" r="260" fill="#A9DFE0" opacity=".45"/>
+  <circle cx="1360" cy="770" r="320" fill="#F2C94C" opacity=".22"/>
+  <path d="M0 730C188 610 356 726 562 635C784 536 982 408 1600 510V980H0V730Z" fill="#78B979" opacity=".28"/>
+  <g transform="translate(118 104)">
+    <rect width="390" height="720" rx="54" fill="#153844"/>
+    <rect x="22" y="22" width="346" height="676" rx="38" fill="#FFFDF6"/>
+    <text x="54" y="92" fill="#153844" font-family="Arial, sans-serif" font-size="30" font-weight="900">LEARN·EZ</text>
+    <text x="54" y="154" fill="#2C8F8A" font-family="Arial, sans-serif" font-size="17" font-weight="900" letter-spacing="2.4">STEP 04 · YOUR INTERESTS</text>
+    <text x="54" y="210" fill="#153844" font-family="Arial, sans-serif" font-size="44" font-weight="900">어떤 세상을</text>
+    <text x="54" y="262" fill="#153844" font-family="Arial, sans-serif" font-size="44" font-weight="900">먼저 탐험할까요?</text>
+    <g transform="translate(54 322)">
+      <rect width="282" height="74" rx="22" fill="#C7D1E8"/>
+      <text x="24" y="31" fill="#153844" font-family="Arial, sans-serif" font-size="18" font-weight="900">?</text>
+      <text x="64" y="31" fill="#153844" font-family="Arial, sans-serif" font-size="20" font-weight="900">질문과 판단</text>
+      <text x="64" y="55" fill="#153844" opacity=".62" font-family="Arial, sans-serif" font-size="15" font-weight="700">논리 · 증거 · 데이터</text>
+    </g>
+    <g transform="translate(54 414)">
+      <rect width="282" height="74" rx="22" fill="#ACDCD6"/>
+      <text x="24" y="31" fill="#153844" font-family="Arial, sans-serif" font-size="18" font-weight="900">@</text>
+      <text x="64" y="31" fill="#153844" font-family="Arial, sans-serif" font-size="20" font-weight="900">인간중심 AI</text>
+      <text x="64" y="55" fill="#153844" opacity=".62" font-family="Arial, sans-serif" font-size="15" font-weight="700">AI · 기술 · 디지털 윤리</text>
+    </g>
+    <g transform="translate(54 506)">
+      <rect width="282" height="74" rx="22" fill="#F4DCA4"/>
+      <text x="24" y="31" fill="#153844" font-family="Arial, sans-serif" font-size="18" font-weight="900">₩</text>
+      <text x="64" y="31" fill="#153844" font-family="Arial, sans-serif" font-size="20" font-weight="900">돈과 경제</text>
+      <text x="64" y="55" fill="#153844" opacity=".62" font-family="Arial, sans-serif" font-size="15" font-weight="700">금융 · 미시 · 거시</text>
+    </g>
+    <rect x="54" y="630" width="282" height="52" rx="18" fill="#153844"/>
+    <text x="195" y="664" text-anchor="middle" fill="#FFFDF6" font-family="Arial, sans-serif" font-size="20" font-weight="900">내 학습 우주 만들기</text>
+  </g>
+  <g transform="translate(604 92)">
+    <rect width="500" height="366" rx="40" fill="#A9DFE0"/>
+    <path d="M42 154C138 82 230 154 322 112C410 72 450 120 468 92" stroke="#FFFDF6" stroke-width="7" stroke-linecap="round" stroke-dasharray="5 20"/>
+    <path d="M70 134L130 72L218 102L262 160L204 218L108 205L60 168Z" fill="#78B979"/>
+    <path d="M284 146L344 82L430 98L468 152L415 224L328 210Z" fill="#78B979"/>
+    <circle cx="390" cy="152" r="39" fill="#EF6847"/>
+    <circle cx="390" cy="152" r="62" stroke="#FFFDF6" stroke-width="5" opacity=".82"/>
+    <text x="390" y="164" text-anchor="middle" fill="#FFFDF6" font-family="Arial, sans-serif" font-size="30" font-weight="900">KR</text>
+    <rect x="44" y="270" width="412" height="60" rx="22" fill="#153844"/>
+    <text x="250" y="308" text-anchor="middle" fill="#FFFDF6" font-family="Arial, sans-serif" font-size="24" font-weight="900">한국에서 계속하기</text>
+  </g>
+  <g transform="translate(1156 120)">
+    <rect width="310" height="640" rx="46" fill="#153844"/>
+    <rect x="18" y="18" width="274" height="604" rx="34" fill="#FFFDF6"/>
+    <text x="44" y="78" fill="#2C8F8A" font-family="Arial, sans-serif" font-size="15" font-weight="900" letter-spacing="2">MONEY · QUICK CHOICE</text>
+    <text x="44" y="132" fill="#153844" font-family="Arial, sans-serif" font-size="34" font-weight="900">1+1은 정말</text>
+    <text x="44" y="172" fill="#153844" font-family="Arial, sans-serif" font-size="34" font-weight="900">이득일까?</text>
+    <rect x="44" y="214" width="222" height="190" rx="28" fill="#F4DCA4"/>
+    <text x="155" y="284" text-anchor="middle" fill="#153844" font-family="Arial, sans-serif" font-size="48" font-weight="900">🥤 + 🥤</text>
+    <rect x="88" y="324" width="134" height="42" rx="21" fill="#EF6847"/>
+    <text x="155" y="351" text-anchor="middle" fill="#FFFDF6" font-family="Arial, sans-serif" font-size="18" font-weight="900">1 + 1</text>
+    <rect x="44" y="430" width="222" height="64" rx="20" fill="#F6F0DF" stroke="#153844" stroke-opacity=".14"/>
+    <text x="70" y="470" fill="#153844" font-family="Arial, sans-serif" font-size="19" font-weight="900">두 개를 산다</text>
+    <rect x="44" y="510" width="222" height="64" rx="20" fill="#153844"/>
+    <text x="70" y="550" fill="#FFFDF6" font-family="Arial, sans-serif" font-size="19" font-weight="900">필요한지 먼저 생각</text>
+  </g>
+  <g transform="translate(602 518)">
+    <rect width="500" height="260" rx="40" fill="#FFFDF6" stroke="#153844" stroke-opacity=".12" stroke-width="2"/>
+    <text x="44" y="62" fill="#EF6847" font-family="Arial, sans-serif" font-size="17" font-weight="900" letter-spacing="2">GLOBAL MISSION · LIVE</text>
+    <text x="44" y="112" fill="#153844" font-family="Arial, sans-serif" font-size="40" font-weight="900">가짜 뉴스 10만 개</text>
+    <text x="44" y="158" fill="#153844" font-family="Arial, sans-serif" font-size="40" font-weight="900">판별하기</text>
+    <rect x="44" y="196" width="412" height="18" rx="9" fill="#E8DCC1"/>
+    <rect x="44" y="196" width="280" height="18" rx="9" fill="#2C8F8A"/>
+    <text x="44" y="238" fill="#153844" font-family="Arial, sans-serif" font-size="20" font-weight="900">68% · 17개국 참여</text>
+  </g>
+  <text x="118" y="906" fill="#153844" font-family="Arial, sans-serif" font-size="72" font-weight="900" letter-spacing="-2">Learn-EZ</text>
+  <text x="506" y="906" fill="#2C8F8A" font-family="Arial, sans-serif" font-size="28" font-weight="900">세상을 배우는 가장 재밌는 방법</text>
+</svg>

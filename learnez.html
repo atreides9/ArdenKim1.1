@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn-EZ — AI-native 학습 유니버스 | Sunmin Kim</title>
+    <link rel="icon" type="image/svg+xml" href="./fernweh/favicon/favicon1.2.svg">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/dark-mode.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600&family=Diphylleia&family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600&family=Bagel+Fat+One&display=swap"
+        rel="stylesheet">
+
+    <!-- Prevent dark mode flash -->
+    <script>
+        (function () {
+            const theme = localStorage.getItem('theme');
+            if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark-mode-loading');
+                document.body.classList.add('dark-mode');
+            }
+        })();
+    </script>
+
+    <style>
+        :root {
+            --learn-paper: #f6f0df;
+            --learn-ink: #153844;
+            --learn-teal: #2c8f8a;
+            --learn-coral: #ef6847;
+            --learn-yellow: #f2c94c;
+            --learn-sea: #a9dfe0;
+            --learn-green: #78b979;
+            --learn-border: rgba(21, 56, 68, 0.12);
+        }
+
+        .dark-mode-loading {
+            background-color: #121212 !important;
+            color: #e0e0e0 !important;
+        }
+
+        * {
+            transition: background-color 200ms ease-in-out, color 200ms ease-in-out, border-color 200ms ease-in-out;
+        }
+
+        .preload * {
+            transition: none !important;
+        }
+
+        .project-tag {
+            display: inline-block;
+            margin-bottom: 16px;
+            color: var(--accent-color);
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .project-impact {
+            max-width: 760px;
+            margin: 8px 0 24px;
+            color: var(--text-secondary);
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            line-height: 1.7;
+            word-break: keep-all;
+        }
+
+        .hero-live-link {
+            display: inline-flex;
+            min-height: 48px;
+            align-items: center;
+            justify-content: center;
+            margin: 0 0 32px;
+            padding: 0 24px;
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            background: var(--text-color);
+            color: var(--card-bg);
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 200ms ease;
+        }
+
+        .hero-live-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.14);
+        }
+
+        .section-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--accent-color);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .constraint-list,
+        .process-steps,
+        .tag-list,
+        .tip-grid,
+        .insight-grid,
+        .reflection-grid,
+        .learning-loop {
+            display: grid;
+            gap: 16px;
+            margin: 32px 0;
+        }
+
+        .constraint-list {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .constraint-item,
+        .process-step,
+        .tip-card,
+        .insight-item,
+        .decision-block,
+        .reflection-col,
+        .loop-step {
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            background: var(--card-bg);
+        }
+
+        .constraint-item {
+            padding: 24px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .learning-loop {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .loop-step {
+            min-height: 160px;
+            padding: 24px;
+        }
+
+        .loop-step span {
+            display: inline-flex;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            border-radius: 16px;
+            background: var(--learn-paper);
+            color: var(--learn-ink);
+            font-weight: 900;
+        }
+
+        .loop-step strong,
+        .loop-step small,
+        .tip-label,
+        .insight-number {
+            display: block;
+        }
+
+        .loop-step strong {
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .loop-step small {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+
+        .decision-block {
+            margin: 24px 0;
+            padding: 32px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .decision-label,
+        .tip-label {
+            margin: 0 0 8px;
+            color: var(--accent-color);
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .decision-title {
+            margin: 0 0 8px;
+            color: var(--text-color);
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+
+        .decision-body,
+        .tip-text,
+        .insight-desc {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .process-step {
+            display: grid;
+            grid-template-columns: 48px 1fr;
+            align-items: start;
+            padding: 24px;
+        }
+
+        .step-num {
+            display: inline-flex;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            background: var(--accent-color);
+            color: #fff;
+            font-weight: 800;
+        }
+
+        .step-text {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .tip-grid,
+        .insight-grid,
+        .reflection-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .tip-card,
+        .insight-item,
+        .reflection-col {
+            padding: 24px;
+        }
+
+        .insight-number {
+            margin-bottom: 8px;
+            color: var(--accent-color);
+            font-size: clamp(1.75rem, 3vw, 2.25rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            display: inline-flex;
+            min-height: 40px;
+            align-items: center;
+            padding: 0 16px;
+            border-radius: 24px;
+            background: rgba(255, 107, 107, 0.08);
+            color: var(--accent-color);
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+
+        .experience-panel {
+            margin: 32px 0;
+            padding: 32px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, var(--learn-paper), rgba(169, 223, 224, 0.32));
+        }
+
+        .experience-panel img {
+            display: block;
+            width: 100%;
+            border-radius: 16px;
+        }
+
+        .reflection-col h4 {
+            margin: 0 0 16px;
+            color: var(--text-color);
+            font-size: 1.05rem;
+        }
+
+        .reflection-col ul {
+            margin: 0;
+            padding-left: 20px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        body.dark-mode .constraint-item,
+        body.dark-mode .process-step,
+        body.dark-mode .tip-card,
+        body.dark-mode .insight-item,
+        body.dark-mode .decision-block,
+        body.dark-mode .reflection-col,
+        body.dark-mode .loop-step {
+            background: var(--dark-bg-secondary);
+            border-color: var(--dark-border-color);
+        }
+
+        body.dark-mode .experience-panel {
+            background: linear-gradient(135deg, rgba(45, 45, 45, 0.96), rgba(44, 143, 138, 0.16));
+        }
+
+        @media (max-width: 1023px) {
+            .learning-loop,
+            .tip-grid,
+            .insight-grid,
+            .reflection-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 767px) {
+            .constraint-list,
+            .learning-loop,
+            .tip-grid,
+            .insight-grid,
+            .reflection-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .experience-panel {
+                padding: 16px;
+                border-radius: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body class="preload">
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <div class="nav-content">
+            <a href="index.html" class="logo">Sunmin Kim.</a>
+            <ul class="nav-links">
+                <li><a href="index.html#work">Work</a></li>
+                <li><a href="index.html#about">About me</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                <span class="sun-icon">☀️</span>
+                <span class="moon-icon">🌙</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="project-container">
+        <aside class="in-page-nav">
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#problem">Problem</a></li>
+                <li><a href="#concept">Product Concept</a></li>
+                <li><a href="#experience">Experience System</a></li>
+                <li><a href="#decisions">Key Decisions</a></li>
+                <li><a href="#process">AI-native Build</a></li>
+                <li><a href="#outcome">Outcome</a></li>
+                <li><a href="#learnings">Learnings</a></li>
+            </ul>
+        </aside>
+
+        <main class="project-main-content">
+            <!-- Project Hero -->
+            <section class="project-hero">
+                <div class="project-hero-content">
+                    <div class="project-meta">
+                        <a href="index.html#work" class="back-link">← 홈으로</a>
+                    </div>
+                    <span class="project-tag">2026 · Product Design · AI-Native Prototype · Solo Build</span>
+                    <h1>Learn-EZ</h1>
+                    <p class="project-impact">질문하고 판단하는 힘을 기르는 AI-native 학습 유니버스. 온보딩, 퀘스트, 여권, 글로벌 미션까지 이어지는 모바일 학습 경험을 설계하고 구현했습니다.</p>
+
+                    <a href="https://github.com/atreides9/learn-ez" target="_blank" rel="noopener noreferrer"
+                        class="hero-live-link" aria-label="Learn-EZ GitHub 저장소 바로가기">GitHub ↗</a>
+
+                    <div class="project-image-hero">
+                        <img src="fernweh/learnez/hero.svg" alt="Learn-EZ 온보딩, 세계 지도, 퀴즈, 글로벌 미션 화면을 보여주는 모바일 학습 유니버스 프리뷰">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Project Details -->
+            <section class="project-details">
+                <div class="project-content">
+                    <div id="overview" class="project-overview">
+                        <span class="section-label">01. Overview</span>
+                        <h2>개요</h2>
+                        <p>Learn-EZ는 특정 과목 하나를 학습하는 앱이 아니라, 사용자가 국가·학습 맥락·관심 분야를 선택하면 자신만의 학습 세계를 탐험하도록 설계한 모바일 프로토타입입니다. 학습 분야는 질문과 판단, 인간중심 AI, 돈과 경제, 사회와 세계, 과학, 역사, Global Agora, 미래 프로젝트처럼 교과와 삶의 주제를 함께 다룹니다.</p>
+
+                        <div class="project-specs">
+                            <div class="spec-item">
+                                <h3>Solo Project</h3>
+                                <p>1인 + AI Agent</p>
+                                <p>✅ 기획·UX/UI·프론트 프로토타입 100%</p>
+                            </div>
+                            <div class="spec-item">
+                                <h3>Period</h3>
+                                <p>2026.07</p>
+                            </div>
+                            <div class="spec-item">
+                                <h3>Tools</h3>
+                                <p>Claude Code<br>HTML/CSS/JS<br>Github</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="problem" class="project-section">
+                        <span class="section-label">02. Problem</span>
+                        <h2>학습은 콘텐츠보다 지속되는 구조가 어렵다</h2>
+                        <p>지식 콘텐츠는 이미 넘쳐나지만, 사용자가 꾸준히 돌아와 생각하고 판단하는 구조는 부족합니다. 많은 학습 서비스는 과목별 콘텐츠를 제공하는 데 집중하지만, 사용자가 왜 배우는지, 다음에 무엇을 해야 하는지, 배운 내용이 삶의 판단과 어떻게 연결되는지는 흐려지기 쉽습니다.</p>
+                        <div class="constraint-list">
+                            <div class="constraint-item">콘텐츠는 많지만 학습자가 다시 돌아오게 만드는 진행감이 약하다</div>
+                            <div class="constraint-item">교과와 삶의 주제가 분리되어 학습의 맥락이 끊긴다</div>
+                            <div class="constraint-item">정답 암기와 가치 판단, 토론형 사고가 같은 방식으로 다뤄진다</div>
+                            <div class="constraint-item">게임화가 보상에만 치우치면 학습 자체의 의미가 약해진다</div>
+                        </div>
+                    </div>
+
+                    <div id="concept" class="project-section">
+                        <span class="section-label">03. Product Concept</span>
+                        <h2>교과 앱이 아니라, 학습 세계를 설계했다</h2>
+                        <p>Learn-EZ의 핵심 컨셉은 “세상을 배우는 가장 재밌는 방법”입니다. 국가와 학습 맥락을 기반으로 출발점을 잡고, 관심 분야를 선택하면 사용자는 세계 지도와 학습 경로를 따라 퀘스트를 완료합니다. 학습은 단일 화면의 문제 풀이가 아니라, 탐험과 기록, 협동 미션으로 이어지는 경험이 됩니다.</p>
+                        <div class="tip-grid">
+                            <div class="tip-card">
+                                <span class="tip-label">Personalized Start</span>
+                                <p class="tip-text">국가, 미성년/성인 경로, 학년 또는 커리어 맥락, 관심 분야를 받아 학습 출발점을 조정합니다.</p>
+                            </div>
+                            <div class="tip-card">
+                                <span class="tip-label">Learning Universe</span>
+                                <p class="tip-text">12개 분야를 코스 카탈로그로 구성해 사용자가 교과와 삶의 주제를 넘나들 수 있도록 설계했습니다.</p>
+                            </div>
+                            <div class="tip-card">
+                                <span class="tip-label">Quest Narrative</span>
+                                <p class="tip-text">세계 지도, 국가 탐험, 퀘스트 노드, 여권 도장을 통해 학습 진행을 시각적인 여정으로 만듭니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="experience" class="project-section">
+                        <span class="section-label">04. Experience System</span>
+                        <h2>온보딩에서 재방문까지 이어지는 학습 루프</h2>
+                        <p>Learn-EZ는 첫 선택부터 복습과 미션까지 하나의 루프로 연결됩니다. 사용자는 관심 분야를 고르고, 세계 지도에서 국가를 선택하고, 퀘스트를 풀고, 피드백을 받은 뒤 다음 미션을 해금합니다. 여권, 스트릭, 글로벌 미션, 월간 배지는 이 루프를 다시 시작하게 만드는 장치입니다.</p>
+
+                        <div class="learning-loop">
+                            <div class="loop-step"><span>1</span><strong>Onboarding</strong><small>국가, 학습자 유형, 학년/커리어, 관심 분야를 선택합니다.</small></div>
+                            <div class="loop-step"><span>2</span><strong>Course Universe</strong><small>관심사 기반으로 다양한 학습 분야를 추천하고 전환합니다.</small></div>
+                            <div class="loop-step"><span>3</span><strong>Quest &amp; Quiz</strong><small>정답형/관점형 퀴즈를 통해 지식과 판단을 함께 다룹니다.</small></div>
+                            <div class="loop-step"><span>4</span><strong>Mission &amp; Passport</strong><small>XP, 여권, 글로벌 미션, 배지로 학습의 지속 동기를 만듭니다.</small></div>
+                        </div>
+
+                        <div class="experience-panel">
+                            <img src="fernweh/learnez/hero.svg" alt="온보딩, 세계 지도, 퀴즈, 글로벌 미션으로 이어지는 Learn-EZ 경험 시스템">
+                        </div>
+                    </div>
+
+                    <div id="decisions" class="project-section">
+                        <span class="section-label">05. Key Decisions</span>
+                        <h2>핵심 결정 3가지</h2>
+
+                        <div class="decision-block">
+                            <p class="decision-label">Decision 01</p>
+                            <p class="decision-title">과목보다 역량 중심으로 분야를 구성</p>
+                            <p class="decision-body">단순 과목 앱처럼 보이지 않도록 질문과 판단, 인간중심 AI, 돈과 경제, 사회와 세계, 미래 프로젝트처럼 “세상을 읽는 힘”을 기준으로 카테고리를 설계했습니다.</p>
+                        </div>
+
+                        <div class="decision-block">
+                            <p class="decision-label">Decision 02</p>
+                            <p class="decision-title">정답형과 관점형 퀴즈를 분리</p>
+                            <p class="decision-body">물리·역사처럼 근거로 확인할 수 있는 문제는 정답형으로, 커뮤니케이션·윤리·사회 이슈처럼 맥락이 중요한 문제는 관점형으로 설계해 학습 목표를 다르게 다뤘습니다.</p>
+                        </div>
+
+                        <div class="decision-block">
+                            <p class="decision-label">Decision 03</p>
+                            <p class="decision-title">보상은 학습 접근권이 아니라 지속 동기에만 사용</p>
+                            <p class="decision-body">스파크는 힌트와 아바타 꾸미기에 사용하도록 설계하고, 기본 학습과 복습은 결제로 막지 않았습니다. 학습 기회보다 동기와 표현을 보상하는 구조를 우선했습니다.</p>
+                        </div>
+                    </div>
+
+                    <div id="process" class="project-section">
+                        <span class="section-label">06. AI-native Build Process</span>
+                        <h2>AI와 함께 제품 구조를 빠르게 구현했다</h2>
+                        <p>Learn-EZ는 AI를 단순한 화면 생성기가 아니라, 제품 구조를 빠르게 구체화하고 구현하는 협업 파트너로 활용한 프로젝트입니다. 컨셉, IA, UI 상태, 콘텐츠 구조, 인터랙션을 브라우저에서 직접 확인하며 반복했습니다.</p>
+
+                        <div class="process-steps">
+                            <div class="process-step">
+                                <span class="step-num">1</span>
+                                <p class="step-text"><strong>Product framing</strong> — “학습을 세계 탐험으로 바꾸는 앱”이라는 중심 메타포와 주요 루프 정의</p>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">2</span>
+                                <p class="step-text"><strong>IA &amp; screen flow</strong> — 온보딩, 코스, 지도, 퀴즈, 미션, 여권, 프로필, 상점까지 화면 상태 설계</p>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">3</span>
+                                <p class="step-text"><strong>Prototype build</strong> — HTML/CSS/JS 단일 앱으로 모바일 우선 인터랙션 구현</p>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">4</span>
+                                <p class="step-text"><strong>Iteration</strong> — 브라우저에서 직접 테스트하며 퀘스트 경로, 힌트, 결과, 보상 흐름을 조정</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="outcome" class="project-section">
+                        <span class="section-label">07. Outcome</span>
+                        <h2>모바일 학습 경험의 거의 모든 핵심 루프를 구현</h2>
+                        <div class="insight-grid">
+                            <div class="insight-item">
+                                <span class="insight-number">12</span>
+                                <p class="insight-desc">질문과 판단, AI, 경제, 사회, 과학, 역사 등 12개 학습 분야 구조화</p>
+                            </div>
+                            <div class="insight-item">
+                                <span class="insight-number">20+</span>
+                                <p class="insight-desc">온보딩, 지도, 퀴즈, 여권, 미션, 상점 등 주요 화면과 상태 구현</p>
+                            </div>
+                            <div class="insight-item">
+                                <span class="insight-number">5-step</span>
+                                <p class="insight-desc">퀘스트 시작, 풀이, 해설, 완료, 다음 미션 해금으로 이어지는 학습 루프 설계</p>
+                            </div>
+                        </div>
+
+                        <div class="tag-list">
+                            <span class="tag">AI-native Workflow</span>
+                            <span class="tag">Learning UX</span>
+                            <span class="tag">Gamification</span>
+                            <span class="tag">Mobile Prototype</span>
+                            <span class="tag">HTML/CSS/JS</span>
+                            <span class="tag">Ethical Monetization</span>
+                        </div>
+                    </div>
+
+                    <div id="learnings" class="project-section">
+                        <span class="section-label">08. Learnings</span>
+                        <h2>AI 시대의 학습 제품은 콘텐츠보다 루프가 중요하다</h2>
+                        <div class="reflection-grid">
+                            <div class="reflection-col">
+                                <h4>✓ Product</h4>
+                                <ul>
+                                    <li>범용 학습 제품은 자유도보다 반복 가능한 구조가 먼저 필요하다</li>
+                                    <li>AI 기능보다 “왜 다시 돌아오는가”를 설명하는 루프가 중요하다</li>
+                                </ul>
+                            </div>
+                            <div class="reflection-col">
+                                <h4>✓ UX/UI</h4>
+                                <ul>
+                                    <li>복잡한 시스템도 하나의 메타포로 묶으면 탐색 부담이 줄어든다</li>
+                                    <li>게임화는 보상보다 의미 있는 진행감과 기록으로 설계해야 한다</li>
+                                </ul>
+                            </div>
+                            <div class="reflection-col">
+                                <h4>✓ AI-native Build</h4>
+                                <ul>
+                                    <li>AI 협업은 구현 속도를 높이지만, 제품 판단과 윤리 원칙은 사람이 잡아야 한다</li>
+                                    <li>브라우저에서 바로 눌러보는 반복이 화면 설계의 밀도를 높였다</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-navigation">
+                    <a href="starbucks.html" class="nav-project prev">
+                        <span>이전 프로젝트</span>
+                        <h3>← Starbucks App Redesign</h3>
+                    </a>
+                    <a href="otium.html" class="nav-project">
+                        <span>다음 프로젝트</span>
+                        <h3>Otium →</h3>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <p>© 2026 Sunmin Kim • All rights reserved</p>
+    </footer>
+
+    <script src="./script.js"></script>
+</body>
+
+</html>

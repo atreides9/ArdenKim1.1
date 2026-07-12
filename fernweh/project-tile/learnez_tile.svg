@@ -1,0 +1,93 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" rx="48" fill="#F6F0DF"/>
+  <circle cx="120" cy="112" r="220" fill="#A9DFE0" opacity=".42"/>
+  <circle cx="1080" cy="760" r="260" fill="#F2C94C" opacity=".24"/>
+  <path d="M0 688C168 600 328 672 488 616C680 548 816 416 1200 504V900H0V688Z" fill="#78B979" opacity=".24"/>
+
+  <g transform="translate(88 104)">
+    <rect width="320" height="128" rx="32" fill="#FFFDF6" stroke="#153844" stroke-opacity=".10" stroke-width="2"/>
+    <text x="32" y="48" fill="#2C8F8A" font-family="Arial, sans-serif" font-size="18" font-weight="900" letter-spacing="2">ACTIVE QUEST</text>
+    <text x="32" y="88" fill="#153844" font-family="Arial, sans-serif" font-size="32" font-weight="900">돈과 경제 시스템</text>
+  </g>
+
+  <g transform="translate(792 112)">
+    <rect width="312" height="112" rx="32" fill="#153844"/>
+    <text x="32" y="44" fill="#FFFDF6" font-family="Arial, sans-serif" font-size="20" font-weight="800">오늘의 진행률</text>
+    <rect x="32" y="68" width="176" height="16" rx="8" fill="#FFFDF6" opacity=".18"/>
+    <rect x="32" y="68" width="128" height="16" rx="8" fill="#F2C94C"/>
+    <text x="232" y="84" fill="#FFFDF6" font-family="Arial, sans-serif" font-size="24" font-weight="900">72%</text>
+  </g>
+
+  <g transform="translate(320 72)">
+    <rect x="0" y="0" width="560" height="752" rx="64" fill="#153844"/>
+    <rect x="28" y="28" width="504" height="696" rx="48" fill="#FFFDF6"/>
+
+    <g transform="translate(64 64)">
+      <rect width="176" height="48" rx="24" fill="#EAF7F4"/>
+      <circle cx="24" cy="24" r="12" fill="#78B979"/>
+      <text x="48" y="31" fill="#153844" font-family="Arial, sans-serif" font-size="18" font-weight="900">Quest 04</text>
+      <rect x="304" y="0" width="112" height="48" rx="24" fill="#F4DCA4"/>
+      <text x="360" y="31" text-anchor="middle" fill="#153844" font-family="Arial, sans-serif" font-size="18" font-weight="900">+20 XP</text>
+    </g>
+
+    <g transform="translate(64 144)">
+      <rect width="416" height="16" rx="8" fill="#E7E0CF"/>
+      <rect width="272" height="16" rx="8" fill="#2C8F8A"/>
+    </g>
+
+    <g transform="translate(64 208)">
+      <text x="0" y="0" fill="#2C8F8A" font-family="Arial, sans-serif" font-size="20" font-weight="900" letter-spacing="2">QUIZ</text>
+      <text x="0" y="64" fill="#153844" font-family="Arial, sans-serif" font-size="42" font-weight="900">인플레이션이</text>
+      <text x="0" y="116" fill="#153844" font-family="Arial, sans-serif" font-size="42" font-weight="900">높아질 때 나타나는</text>
+      <text x="0" y="168" fill="#153844" font-family="Arial, sans-serif" font-size="42" font-weight="900">대표적인 변화는?</text>
+    </g>
+
+    <g transform="translate(64 440)">
+      <rect width="416" height="72" rx="24" fill="#F6F0DF"/>
+      <circle cx="40" cy="36" r="16" fill="#C7D1E8"/>
+      <text x="72" y="45" fill="#153844" font-family="Arial, sans-serif" font-size="24" font-weight="800">화폐 가치가 상승한다</text>
+    </g>
+
+    <g transform="translate(64 528)">
+      <rect width="416" height="80" rx="24" fill="#2C8F8A"/>
+      <circle cx="40" cy="40" r="18" fill="#FFFDF6"/>
+      <path d="M31 40L38 48L51 32" stroke="#2C8F8A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="72" y="49" fill="#FFFDF6" font-family="Arial, sans-serif" font-size="24" font-weight="900">같은 돈으로 살 수 있는</text>
+      <text x="72" y="76" fill="#FFFDF6" font-family="Arial, sans-serif" font-size="24" font-weight="900">물건이 줄어든다</text>
+    </g>
+
+    <g transform="translate(64 624)">
+      <rect width="416" height="64" rx="24" fill="#F6F0DF"/>
+      <circle cx="40" cy="32" r="16" fill="#F2C94C"/>
+      <text x="72" y="41" fill="#153844" font-family="Arial, sans-serif" font-size="24" font-weight="800">은행 이자가 모두 사라진다</text>
+    </g>
+  </g>
+
+  <g transform="translate(104 304)">
+    <rect width="192" height="192" rx="40" fill="#A9DFE0"/>
+    <path d="M48 92C80 64 112 88 144 56" stroke="#FFFDF6" stroke-width="8" stroke-linecap="round"/>
+    <path d="M48 132C80 104 112 128 144 96" stroke="#153844" stroke-opacity=".56" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="148" cy="52" r="24" fill="#EF6847"/>
+    <text x="96" y="168" text-anchor="middle" fill="#153844" font-family="Arial, sans-serif" font-size="22" font-weight="900">Global Map</text>
+  </g>
+
+  <g transform="translate(912 320)">
+    <rect width="200" height="200" rx="40" fill="#FFFDF6" stroke="#153844" stroke-opacity=".10" stroke-width="2"/>
+    <text x="32" y="56" fill="#2C8F8A" font-family="Arial, sans-serif" font-size="18" font-weight="900" letter-spacing="2">AI HINT</text>
+    <text x="32" y="104" fill="#153844" font-family="Arial, sans-serif" font-size="28" font-weight="900">핵심 개념을</text>
+    <text x="32" y="140" fill="#153844" font-family="Arial, sans-serif" font-size="28" font-weight="900">짧게 다시</text>
+    <text x="32" y="176" fill="#153844" font-family="Arial, sans-serif" font-size="28" font-weight="900">확인해요</text>
+  </g>
+
+  <g transform="translate(112 596)">
+    <rect width="256" height="128" rx="32" fill="#FFFDF6" stroke="#153844" stroke-opacity=".10" stroke-width="2"/>
+    <text x="32" y="48" fill="#153844" font-family="Arial, sans-serif" font-size="24" font-weight="900">Learn-EZ</text>
+    <text x="32" y="84" fill="#2C8F8A" font-family="Arial, sans-serif" font-size="18" font-weight="900">AI-native learning</text>
+  </g>
+
+  <g transform="translate(904 616)">
+    <rect width="208" height="104" rx="32" fill="#F2C94C"/>
+    <text x="104" y="45" text-anchor="middle" fill="#153844" font-family="Arial, sans-serif" font-size="20" font-weight="900">정답!</text>
+    <text x="104" y="76" text-anchor="middle" fill="#153844" font-family="Arial, sans-serif" font-size="28" font-weight="900">+20 XP</text>
+  </g>
+</svg>

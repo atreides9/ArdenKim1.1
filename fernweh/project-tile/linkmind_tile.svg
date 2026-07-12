@@ -1,0 +1,32 @@
+<svg width="960" height="480" viewBox="0 0 960 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="960" height="480" rx="32" fill="#101417"/>
+  <rect x="40" y="40" width="880" height="400" rx="32" fill="#151B20"/>
+  <path d="M232 164L368 112L536 168L704 116" stroke="#8AA4FF" stroke-width="4" stroke-linecap="round" opacity=".36"/>
+  <path d="M232 164L400 272L568 232L704 116" stroke="#7BDDB8" stroke-width="4" stroke-linecap="round" opacity=".32"/>
+  <path d="M400 272L536 168L704 316" stroke="#F2C94C" stroke-width="4" stroke-linecap="round" opacity=".28"/>
+  <g filter="url(#softGlow)">
+    <circle cx="232" cy="164" r="24" fill="#7BDDB8"/>
+    <circle cx="368" cy="112" r="18" fill="#8AA4FF"/>
+    <circle cx="536" cy="168" r="28" fill="#F2C94C"/>
+    <circle cx="704" cy="116" r="20" fill="#FF7A59"/>
+    <circle cx="400" cy="272" r="24" fill="#8AA4FF"/>
+    <circle cx="568" cy="232" r="20" fill="#7BDDB8"/>
+    <circle cx="704" cy="316" r="24" fill="#F2C94C"/>
+  </g>
+  <rect x="96" y="96" width="216" height="120" rx="24" fill="#F7F2E8"/>
+  <text x="120" y="136" fill="#151B20" font-family="Arial, sans-serif" font-size="18" font-weight="900">Captured Note</text>
+  <rect x="120" y="154" width="144" height="10" rx="5" fill="#151B20" opacity=".30"/>
+  <rect x="120" y="176" width="104" height="10" rx="5" fill="#151B20" opacity=".18"/>
+  <rect x="120" y="196" width="64" height="10" rx="5" fill="#7BDDB8"/>
+  <rect x="648" y="248" width="216" height="120" rx="24" fill="#F7F2E8"/>
+  <text x="672" y="288" fill="#151B20" font-family="Arial, sans-serif" font-size="18" font-weight="900">Connection</text>
+  <rect x="672" y="306" width="136" height="10" rx="5" fill="#151B20" opacity=".30"/>
+  <rect x="672" y="328" width="88" height="10" rx="5" fill="#151B20" opacity=".18"/>
+  <rect x="672" y="348" width="96" height="10" rx="5" fill="#8AA4FF"/>
+  <defs>
+    <filter id="softGlow" x="184" y="64" width="568" height="300" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+</svg>
