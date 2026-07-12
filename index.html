@@ -190,10 +190,12 @@
 
         /* Nav short text: swap at ≤520px */
         @media (max-width: 520px) {
+
             .nav-name-full,
             .nav-about-full {
                 display: none;
             }
+
             .nav-name-short,
             .nav-about-short {
                 display: inline;
@@ -245,10 +247,9 @@
             height: 100%;
             border-radius: 16px;
             background: linear-gradient(135deg,
-                rgba(255, 107, 107, 0.04) 0%,
-                rgba(255, 142, 142, 0.07) 50%,
-                rgba(78, 205, 196, 0.04) 100%
-            );
+                    rgba(255, 107, 107, 0.04) 0%,
+                    rgba(255, 142, 142, 0.07) 50%,
+                    rgba(78, 205, 196, 0.04) 100%);
             border: 1.5px dashed rgba(255, 107, 107, 0.28);
             display: flex;
             align-items: center;
@@ -319,20 +320,39 @@
             animation: dotPulse 1.6s ease-in-out infinite;
         }
 
-        .whats-next-dots span:nth-child(2) { animation-delay: 0.27s; }
-        .whats-next-dots span:nth-child(3) { animation-delay: 0.54s; }
+        .whats-next-dots span:nth-child(2) {
+            animation-delay: 0.27s;
+        }
+
+        .whats-next-dots span:nth-child(3) {
+            animation-delay: 0.54s;
+        }
 
         @keyframes dotPulse {
-            0%, 100% { opacity: 0.18; transform: scale(0.85); }
-            50% { opacity: 0.72; transform: scale(1.15); }
+
+            0%,
+            100% {
+                opacity: 0.18;
+                transform: scale(0.85);
+            }
+
+            50% {
+                opacity: 0.72;
+                transform: scale(1.15);
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .whats-next-dots span { animation: none; opacity: 0.4; }
+            .whats-next-dots span {
+                animation: none;
+                opacity: 0.4;
+            }
         }
 
         /* Hero custom cursor */
-        .hero-section { cursor: none; }
+        .hero-section {
+            cursor: none;
+        }
 
         #hero-cursor {
             position: fixed;
@@ -345,7 +365,7 @@
             opacity: 0;
             transform: translate(-50%, -50%) scale(0.85);
             transition: opacity 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                        transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             will-change: left, top, transform;
         }
@@ -363,15 +383,16 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            #hero-cursor { transition: opacity 150ms ease; }
+            #hero-cursor {
+                transition: opacity 150ms ease;
+            }
         }
 
         body.dark-mode .bento-card--whats-next {
             background: linear-gradient(135deg,
-                rgba(255, 138, 138, 0.04) 0%,
-                rgba(255, 138, 138, 0.08) 50%,
-                rgba(94, 217, 209, 0.04) 100%
-            );
+                    rgba(255, 138, 138, 0.04) 0%,
+                    rgba(255, 138, 138, 0.08) 50%,
+                    rgba(94, 217, 209, 0.04) 100%);
             border-color: rgba(255, 138, 138, 0.22);
         }
 
@@ -621,9 +642,11 @@
     <!-- Navigation -->
     <nav class="nav-container">
         <div class="nav-content">
-            <a href="#top" class="logo"><span class="nav-name-full">Sunmin Kim.</span><span class="nav-name-short">SmK</span></a>
+            <a href="#top" class="logo"><span class="nav-name-full">Sunmin Kim.</span><span
+                    class="nav-name-short">SmK</span></a>
             <ul class="nav-links">
-                <li><a href="#about"><span class="nav-about-full">About me</span><span class="nav-about-short">About</span></a></li>
+                <li><a href="#about"><span class="nav-about-full">About me</span><span
+                            class="nav-about-short">About</span></a></li>
                 <li><a href="#work">Work</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -683,7 +706,8 @@
                     <article class="project-card" style="position:relative;">
                         <span class="badge-live">Prototype</span>
                         <div class="project-image">
-                            <img src="fernweh/project-tile/learnez_tile.svg" alt="Learn-EZ - 퀘스트와 미션으로 학습을 이어가는 AI-native 학습 유니버스">
+                            <img src="fernweh/project-tile/learnez_tile.svg"
+                                alt="Learn-EZ - 퀘스트와 미션으로 학습을 이어가는 AI-native 학습 유니버스">
                         </div>
                         <div class="project-info">
                             <span class="project-category">#AI-Native #LearningUX #Prototype</span>
@@ -724,7 +748,8 @@
                     <article class="project-card" style="position:relative;">
                         <span class="badge-live">라이브</span>
                         <div class="project-image">
-                            <img src="fernweh/project-tile/linkmind_tile.svg" alt="LinkMind — 노트를 캔버스에서 카드로 관리하고 그래프로 연결 관계를 시각화하는 지식 관리 앱">
+                            <img src="fernweh/project-tile/linkmind_tile.svg"
+                                alt="LinkMind — 노트를 캔버스에서 카드로 관리하고 그래프로 연결 관계를 시각화하는 지식 관리 앱">
                         </div>
                         <div class="project-info">
                             <span class="project-category">#AI-Native #React</span>
@@ -765,7 +790,8 @@
                     <article class="project-card" style="position:relative;">
                         <span class="badge-live">출시 후 아카이브</span>
                         <div class="project-image">
-                            <img src="fernweh/project-tile/petbulance_tile.png?v=20251201" alt="펫뷸런스 - 특수동물 응급 병원 매칭 서비스">
+                            <img src="fernweh/project-tile/petbulance_tile.png?v=20251201"
+                                alt="펫뷸런스 - 특수동물 응급 병원 매칭 서비스">
                         </div>
                         <div class="project-info">
                             <span class="project-category">#Launched #Archived #Team</span>
@@ -788,7 +814,7 @@
                             <span class="project-category">#Product #AI Workflow</span>
                             <h3>dots</h3>
                             <p>흩어진 정보를 한 곳에 — Claude Code로 3일만에 MVP 배포</p>
-                                                        <span class="launch-cta"
+                            <span class="launch-cta"
                                 onclick="event.preventDefault(); event.stopPropagation(); window.open('https://dots2-2.vercel.app/', '_blank');">
                                 dots MVP 바로가기
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -822,7 +848,8 @@
                 <a href="starbucks.html" class="project-card-link">
                     <article class="project-card">
                         <div class="project-image">
-                            <img src="fernweh/project-tile/starbucks_tile.svg" alt="스타벅스 앱 리디자인 - 디자인 시스템 제작, 프로토타입, UT 검증">
+                            <img src="fernweh/project-tile/starbucks_tile.svg"
+                                alt="스타벅스 앱 리디자인 - 디자인 시스템 제작, 프로토타입, UT 검증">
                         </div>
                         <div class="project-info">
                             <span class="project-category">#UT #Prototype</span>
@@ -872,6 +899,18 @@
                 <h3>Experience</h3>
                 <ul class="timeline">
                     <li>
+                        <span class="date">2026.06</span>
+                        <div class="timeline-content">
+                            <h4>배움을 쉽고 재밌게 Learn-ez</h4>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="date">2025.10-2026.05</span>
+                        <div class="timeline-content">
+                            <h4>특수동물 응급상황 병원 검색 서비스 '펫뷸런스'</h4>
+                        </div>
+                    </li>
+                    <li>
                         <span class="date">2026.03</span>
                         <div class="timeline-content">
                             <h4>AI 기반 독서습관 형성 앱 'otium'</h4>
@@ -881,12 +920,6 @@
                         <span class="date">2026.01</span>
                         <div class="timeline-content">
                             <h4>정보 큐레이션 서비스 'dots'</h4>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="date">2025.10-현재</span>
-                        <div class="timeline-content">
-                            <h4>특수동물 응급상황 병원 검색 서비스 '펫뷸런스'</h4>
                         </div>
                     </li>
                     <li>
@@ -975,7 +1008,7 @@
         <div class="contact-content">
             <h2>Currently Looking for..</h2>
             <p>
-                AI-native 프로덕트 디자이너<br>연락주시면 6시간 안에 답장 드리겠습니다.
+                AI-native UXUI 디자이너<br>연락주시면 6시간 안에 답장 드리겠습니다.
             </p>
             <div class="contact-buttons">
                 <a href="mailto:smkim.designer@gmail.com" class="primary-button">
@@ -1015,7 +1048,7 @@
     <script>
         /* ── Hero section custom cursor ──────────────────────────────────── */
         (function () {
-            const heroCursor  = document.getElementById('hero-cursor');
+            const heroCursor = document.getElementById('hero-cursor');
             const heroSection = document.getElementById('hero');
             if (!heroCursor || !heroSection) return;
 
@@ -1029,7 +1062,7 @@
                 cx = lerp(cx, tx, 0.1);
                 cy = lerp(cy, ty, 0.1);
                 heroCursor.style.left = cx + 'px';
-                heroCursor.style.top  = cy + 'px';
+                heroCursor.style.top = cy + 'px';
                 if (active) raf = requestAnimationFrame(tick);
             }
 
@@ -1056,61 +1089,61 @@
     </script>
     <script>
         (function () {
-          const variants = {
-            default: {
-              h1: '데이터가 말하는 문제를,<br>AI와 UX로 풀어냅니다.',
-              sub: '사용자 데이터를 분석하고, AI를 설계에 녹여, 작동하는 서비스로 출시합니다.'
-            },
-            ai: {
-              h1: 'AI 서비스를<br>0에서 1로 만듭니다.',
-              sub: 'AI 서비스 기획부터 배포까지 — 혼자 설계하고, 직접 출시합니다.'
-            },
-            medical: {
-              h1: 'Designing clarity<br>for complex AI systems.',
-              sub: 'Where clinical precision meets human experience.'
-            },
-            platform: {
-              h1: '플랫폼의 복잡함을,<br>사용자의 언어로 풀어냅니다.',
-              sub: '데이터 기반 UX 설계와 AI 통합으로 플랫폼 경험을 재정의합니다.'
-            },
-            lined: { iframe: './hero-canvas.html' }
-          };
+            const variants = {
+                default: {
+                    h1: '데이터가 말하는 문제를,<br>AI와 UX로 풀어냅니다.',
+                    sub: '사용자 데이터를 분석하고, AI를 설계에 녹여, 작동하는 서비스로 출시합니다.'
+                },
+                ai: {
+                    h1: 'AI 서비스를<br>0에서 1로 만듭니다.',
+                    sub: 'AI 서비스 기획부터 배포까지 — 혼자 설계하고, 직접 출시합니다.'
+                },
+                medical: {
+                    h1: 'Designing clarity<br>for complex AI systems.',
+                    sub: 'Where clinical precision meets human experience.'
+                },
+                platform: {
+                    h1: '플랫폼의 복잡함을,<br>사용자의 언어로 풀어냅니다.',
+                    sub: '데이터 기반 UX 설계와 AI 통합으로 플랫폼 경험을 재정의합니다.'
+                },
+                lined: { iframe: './hero-canvas.html' }
+            };
 
-          const v = new URLSearchParams(window.location.search).get('v') || 'default';
-          const config = variants[v] || variants.default;
+            const v = new URLSearchParams(window.location.search).get('v') || 'default';
+            const config = variants[v] || variants.default;
 
-          const heroSection = document.getElementById('hero');
-          const currentSearch = window.location.search;
+            const heroSection = document.getElementById('hero');
+            const currentSearch = window.location.search;
 
-          if (currentSearch) {
-            document.querySelectorAll('a[href^="#"]').forEach((link) => {
-              const hash = link.getAttribute('href');
-              if (!hash || hash === '#') return;
-              link.setAttribute('href', `${currentSearch}${hash}`);
-              link.addEventListener('click', (event) => {
-                const target = document.querySelector(hash);
-                if (!target) return;
-                event.preventDefault();
-                window.history.pushState(null, '', `${currentSearch}${hash}`);
-                target.scrollIntoView({
-                  behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-                  block: 'start'
+            if (currentSearch) {
+                document.querySelectorAll('a[href^="#"]').forEach((link) => {
+                    const hash = link.getAttribute('href');
+                    if (!hash || hash === '#') return;
+                    link.setAttribute('href', `${currentSearch}${hash}`);
+                    link.addEventListener('click', (event) => {
+                        const target = document.querySelector(hash);
+                        if (!target) return;
+                        event.preventDefault();
+                        window.history.pushState(null, '', `${currentSearch}${hash}`);
+                        target.scrollIntoView({
+                            behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+                            block: 'start'
+                        });
+                    });
                 });
-              });
-            });
-          }
+            }
 
-          if (config.iframe) {
-            heroSection.innerHTML = `<iframe src="${config.iframe}" style="width:100%;height:100vh;border:none;display:block;" scrolling="no"></iframe>`;
-            heroSection.style.cssText = 'width:100%;height:100vh;position:relative;overflow:hidden;padding:0;';
-            const heroC = document.getElementById('hero-cursor');
-            if (heroC) heroC.style.display = 'none';
-          } else {
-            const h1 = heroSection.querySelector('.reveal-text');
-            const sub = heroSection.querySelector('.subtitle');
-            if (h1) h1.innerHTML = config.h1;
-            if (sub) sub.textContent = config.sub;
-          }
+            if (config.iframe) {
+                heroSection.innerHTML = `<iframe src="${config.iframe}" style="width:100%;height:100vh;border:none;display:block;" scrolling="no"></iframe>`;
+                heroSection.style.cssText = 'width:100%;height:100vh;position:relative;overflow:hidden;padding:0;';
+                const heroC = document.getElementById('hero-cursor');
+                if (heroC) heroC.style.display = 'none';
+            } else {
+                const h1 = heroSection.querySelector('.reveal-text');
+                const sub = heroSection.querySelector('.subtitle');
+                if (h1) h1.innerHTML = config.h1;
+                if (sub) sub.textContent = config.sub;
+            }
         })();
     </script>
 </body>
