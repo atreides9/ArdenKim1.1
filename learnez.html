@@ -40,6 +40,19 @@
             --learn-sea: #a9dfe0;
             --learn-green: #78b979;
             --learn-border: rgba(21, 56, 68, 0.12);
+            --learn-white: #fffdf6;
+            --learn-muted: #5a7077;
+            --learn-track: #dfd7c4;
+            --learn-shadow: rgba(21, 56, 68, 0.16);
+            --learn-space-1: 8px;
+            --learn-space-2: 16px;
+            --learn-space-3: 24px;
+            --learn-space-4: 32px;
+            --learn-space-5: 40px;
+            --learn-space-6: 48px;
+            --learn-type-label: 0.75rem;
+            --learn-type-body: 0.875rem;
+            --learn-type-title: 1.25rem;
         }
 
         .dark-mode-loading {
@@ -279,16 +292,336 @@
         }
 
         .experience-panel {
+            position: relative;
+            overflow: hidden;
             margin: 32px 0;
             padding: 32px;
             border-radius: 24px;
-            background: linear-gradient(135deg, var(--learn-paper), rgba(169, 223, 224, 0.32));
+            background: var(--learn-paper);
+            color: var(--learn-ink);
         }
 
-        .experience-panel img {
+        /* Experience journey board */
+        .experience-panel::before,
+        .experience-panel::after {
+            position: absolute;
+            border-radius: 50%;
+            content: "";
+            pointer-events: none;
+        }
+
+        .experience-panel::before {
+            top: -96px;
+            right: -48px;
+            width: 288px;
+            height: 288px;
+            background: rgba(169, 223, 224, 0.48);
+        }
+
+        .experience-panel::after {
+            bottom: -128px;
+            left: -64px;
+            width: 320px;
+            height: 320px;
+            background: rgba(242, 201, 76, 0.18);
+        }
+
+        .journey-header,
+        .journey-grid,
+        .journey-footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        .journey-header {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: var(--learn-space-3);
+            margin-bottom: var(--learn-space-4);
+        }
+
+        .journey-eyebrow,
+        .journey-kicker,
+        .journey-step {
             display: block;
-            width: 100%;
+            font-size: var(--learn-type-label);
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .journey-eyebrow,
+        .journey-step {
+            color: var(--learn-teal);
+        }
+
+        .journey-header h3 {
+            max-width: 640px;
+            margin: var(--learn-space-1) 0 0;
+            color: var(--learn-ink);
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            line-height: 1.2;
+            letter-spacing: -0.03em;
+            word-break: keep-all;
+        }
+
+        .journey-progress {
+            flex: 0 0 auto;
+            padding: var(--learn-space-2);
+            border: 1px solid var(--learn-border);
             border-radius: 16px;
+            background: rgba(255, 253, 246, 0.72);
+            color: var(--learn-muted);
+            font-size: var(--learn-type-body);
+            font-weight: 700;
+        }
+
+        .journey-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: var(--learn-space-2);
+        }
+
+        .journey-card {
+            position: relative;
+            min-width: 0;
+            padding: var(--learn-space-2);
+            border: 1px solid var(--learn-border);
+            border-radius: 16px;
+            background: var(--learn-white);
+            box-shadow: 0 16px 32px var(--learn-shadow);
+        }
+
+        .journey-card:not(:last-child)::after {
+            position: absolute;
+            top: 104px;
+            right: -24px;
+            z-index: 2;
+            display: grid;
+            width: 32px;
+            height: 32px;
+            place-items: center;
+            border: 4px solid var(--learn-paper);
+            border-radius: 50%;
+            background: var(--learn-ink);
+            color: var(--learn-white);
+            content: "→";
+            font-weight: 900;
+        }
+
+        .journey-card:nth-child(2)::after {
+            top: auto;
+            right: 24px;
+            bottom: -24px;
+            content: "↓";
+        }
+
+        .journey-card h4 {
+            margin: var(--learn-space-1) 0 var(--learn-space-2);
+            color: var(--learn-ink);
+            font-size: var(--learn-type-title);
+            line-height: 1.3;
+        }
+
+        .journey-card p {
+            margin: var(--learn-space-2) 0 0;
+            color: var(--learn-muted);
+            font-size: var(--learn-type-body);
+            line-height: 1.6;
+            word-break: keep-all;
+        }
+
+        /* Mini product screens */
+        .journey-screen {
+            position: relative;
+            overflow: hidden;
+            min-height: 192px;
+            padding: var(--learn-space-2);
+            border-radius: 16px;
+            background: var(--learn-paper);
+        }
+
+        .interest-option,
+        .quiz-option,
+        .mission-meta {
+            display: flex;
+            min-height: 48px;
+            align-items: center;
+            gap: var(--learn-space-1);
+            margin-top: var(--learn-space-1);
+            padding: var(--learn-space-1);
+            border-radius: 8px;
+            background: var(--learn-white);
+            color: var(--learn-ink);
+            font-size: var(--learn-type-label);
+            font-weight: 800;
+        }
+
+        .interest-option.is-selected,
+        .quiz-option.is-selected {
+            background: var(--learn-ink);
+            color: var(--learn-white);
+        }
+
+        .option-icon {
+            display: grid;
+            width: 32px;
+            height: 32px;
+            flex: 0 0 32px;
+            place-items: center;
+            border-radius: 8px;
+            background: var(--learn-yellow);
+            color: var(--learn-ink);
+            font-size: var(--learn-type-body);
+        }
+
+        .map-screen {
+            background: var(--learn-sea);
+        }
+
+        .map-land {
+            position: absolute;
+            background: var(--learn-green);
+            border-radius: 56% 44% 64% 36%;
+            transform: rotate(-8deg);
+        }
+
+        .map-land-one {
+            top: 48px;
+            left: 16px;
+            width: 104px;
+            height: 64px;
+        }
+
+        .map-land-two {
+            right: 16px;
+            bottom: 40px;
+            width: 88px;
+            height: 72px;
+            transform: rotate(16deg);
+        }
+
+        .map-route {
+            position: absolute;
+            top: 96px;
+            left: 72px;
+            width: 104px;
+            border-top: 4px dashed var(--learn-white);
+            transform: rotate(16deg);
+        }
+
+        .map-pin {
+            position: absolute;
+            right: 40px;
+            top: 80px;
+            display: grid;
+            width: 48px;
+            height: 48px;
+            place-items: center;
+            border: 4px solid var(--learn-white);
+            border-radius: 50%;
+            background: var(--learn-coral);
+            color: var(--learn-white);
+            font-size: var(--learn-type-body);
+            font-weight: 900;
+            box-shadow: 0 8px 16px var(--learn-shadow);
+        }
+
+        .map-location {
+            position: absolute;
+            right: 16px;
+            bottom: 16px;
+            left: 16px;
+            padding: var(--learn-space-1);
+            border-radius: 8px;
+            background: var(--learn-ink);
+            color: var(--learn-white);
+            font-size: var(--learn-type-label);
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .quiz-visual {
+            display: grid;
+            min-height: 72px;
+            place-items: center;
+            border-radius: 8px;
+            background: rgba(242, 201, 76, 0.4);
+            color: var(--learn-ink);
+            font-size: 1.5rem;
+            font-weight: 900;
+        }
+
+        .mission-screen {
+            background: var(--learn-ink);
+            color: var(--learn-white);
+        }
+
+        .mission-screen .journey-kicker {
+            color: var(--learn-yellow);
+        }
+
+        .mission-title {
+            display: block;
+            margin: var(--learn-space-2) 0;
+            font-size: var(--learn-type-title);
+            line-height: 1.3;
+        }
+
+        .mission-track {
+            height: 16px;
+            overflow: hidden;
+            border-radius: 8px;
+            background: rgba(255, 253, 246, 0.24);
+        }
+
+        .mission-track span {
+            display: block;
+            width: 68%;
+            height: 100%;
+            border-radius: 8px;
+            background: var(--learn-yellow);
+        }
+
+        .mission-meta {
+            justify-content: space-between;
+            background: transparent;
+            color: var(--learn-white);
+        }
+
+        .journey-footer {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: var(--learn-space-2);
+            margin-top: var(--learn-space-4);
+            padding-top: var(--learn-space-3);
+            border-top: 1px solid var(--learn-border);
+        }
+
+        .journey-outcome {
+            display: flex;
+            align-items: center;
+            gap: var(--learn-space-2);
+        }
+
+        .journey-outcome strong {
+            display: grid;
+            width: 48px;
+            height: 48px;
+            flex: 0 0 48px;
+            place-items: center;
+            border-radius: 16px;
+            background: var(--learn-white);
+            color: var(--learn-coral);
+            font-size: var(--learn-type-body);
+        }
+
+        .journey-outcome span {
+            color: var(--learn-ink);
+            font-size: var(--learn-type-body);
+            font-weight: 800;
+            line-height: 1.5;
         }
 
         .reflection-col h4 {
@@ -316,7 +649,7 @@
         }
 
         body.dark-mode .experience-panel {
-            background: linear-gradient(135deg, rgba(45, 45, 45, 0.96), rgba(44, 143, 138, 0.16));
+            background: #182c32;
         }
 
         @media (max-width: 1023px) {
@@ -326,6 +659,7 @@
             .reflection-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
+
         }
 
         @media (max-width: 767px) {
@@ -340,6 +674,23 @@
             .experience-panel {
                 padding: 16px;
                 border-radius: 16px;
+            }
+
+            .journey-header {
+                align-items: start;
+                flex-direction: column;
+            }
+
+            .journey-grid,
+            .journey-footer {
+                grid-template-columns: 1fr;
+            }
+
+            .journey-card:not(:last-child)::after {
+                top: auto;
+                right: 24px;
+                bottom: -24px;
+                content: "↓";
             }
         }
     </style>
@@ -408,7 +759,7 @@
                             <div class="spec-item">
                                 <h3>Solo Project</h3>
                                 <p>1인 + AI Agent</p>
-                                <p>✅ 기획·UX/UI·프론트 프로토타입 100%</p>
+                                <p>기여도 100%</p>
                             </div>
                             <div class="spec-item">
                                 <h3>Period</h3>
@@ -466,7 +817,69 @@
                         </div>
 
                         <div class="experience-panel">
-                            <img src="fernweh/learnez/hero.svg" alt="온보딩, 세계 지도, 퀴즈, 글로벌 미션으로 이어지는 Learn-EZ 경험 시스템">
+                            <div class="journey-header">
+                                <div>
+                                    <span class="journey-eyebrow">Learn-EZ Journey</span>
+                                    <h3>나의 관심사가<br>세계의 문제와 만나는 여정</h3>
+                                </div>
+                                <span class="journey-progress">4개의 경험 · 하나의 학습 루프</span>
+                            </div>
+
+                            <div class="journey-grid" aria-label="Learn-EZ 사용자 여정 4단계">
+                                <article class="journey-card">
+                                    <span class="journey-step">01 · Onboarding</span>
+                                    <h4>내 학습 우주 만들기</h4>
+                                    <div class="journey-screen">
+                                        <span class="journey-kicker">관심 분야를 골라주세요</span>
+                                        <div class="interest-option is-selected"><span class="option-icon">?</span>질문과 판단</div>
+                                        <div class="interest-option"><span class="option-icon">AI</span>인간중심 AI</div>
+                                        <div class="interest-option"><span class="option-icon">₩</span>돈과 경제</div>
+                                    </div>
+                                    <p>국가와 관심사를 선택하면 나에게 맞는 첫 퀘스트가 열립니다.</p>
+                                </article>
+
+                                <article class="journey-card">
+                                    <span class="journey-step">02 · World Map</span>
+                                    <h4>지도로 발견하는 맥락</h4>
+                                    <div class="journey-screen map-screen" aria-label="한국 퀘스트가 표시된 세계 지도">
+                                        <span class="map-land map-land-one"></span>
+                                        <span class="map-land map-land-two"></span>
+                                        <span class="map-route"></span>
+                                        <span class="map-pin">KR</span>
+                                        <span class="map-location">서울 · 정보 판별 퀘스트</span>
+                                    </div>
+                                    <p>세계 곳곳의 이슈를 탐색하며 배움이 필요한 이유를 발견합니다.</p>
+                                </article>
+
+                                <article class="journey-card">
+                                    <span class="journey-step">03 · Quiz</span>
+                                    <h4>질문하고 판단하기</h4>
+                                    <div class="journey-screen">
+                                        <div class="quiz-visual">🥤 + 🥤</div>
+                                        <div class="quiz-option">두 개를 바로 산다</div>
+                                        <div class="quiz-option is-selected">필요한지 먼저 생각한다</div>
+                                    </div>
+                                    <p>정답보다 근거를 확인하고, 나의 선택에 대한 피드백을 받습니다.</p>
+                                </article>
+
+                                <article class="journey-card">
+                                    <span class="journey-step">04 · Global Mission</span>
+                                    <h4>함께 만드는 변화</h4>
+                                    <div class="journey-screen mission-screen">
+                                        <span class="journey-kicker">Live · 17개국 참여 중</span>
+                                        <strong class="mission-title">가짜 뉴스<br>10만 개 판별하기</strong>
+                                        <div class="mission-track" aria-label="글로벌 미션 달성률 68%"><span></span></div>
+                                        <div class="mission-meta"><span>68% 달성</span><span>+120 XP</span></div>
+                                    </div>
+                                    <p>개인의 학습 기록이 전 세계 학습자와 함께하는 미션으로 확장됩니다.</p>
+                                </article>
+                            </div>
+
+                            <div class="journey-footer" aria-label="학습 여정의 주요 성과">
+                                <div class="journey-outcome"><strong>XP</strong><span>퀘스트마다<br>성장 기록 축적</span></div>
+                                <div class="journey-outcome"><strong>STAMP</strong><span>나라별 여권 도장과<br>새로운 지역 해금</span></div>
+                                <div class="journey-outcome"><strong>LOOP</strong><span>다음 미션으로 이어지는<br>지속 가능한 동기</span></div>
+                            </div>
                         </div>
                     </div>
 
