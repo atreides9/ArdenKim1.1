@@ -2,6 +2,16 @@
 body.dark-mode {
     background-color: var(--dark-bg-primary);
     color: var(--dark-text-primary);
+
+    /* Remap the accent ramp once here instead of at ~20 use sites.
+       --primary-500 is tuned for the light ground and falls to 2.5:1
+       on #121212, so every `.dark-mode … var(--primary-500)` rule below
+       inherits a readable value from this one block. */
+    --primary-300: #C4E0D4;
+    --primary-500: #8FC2AE;
+    --primary-600: #7FB3A0;
+    --primary-800: #1F3F36;
+    --primary-900: #182F29;
 }
 
 /* Navigation in Dark Mode */
@@ -31,7 +41,7 @@ body.dark-mode {
 }
 
 .dark-mode .profile-image {
-    border-color: var(--primary-500);
+    border-color: var(--dark-accent-primary);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
@@ -44,6 +54,17 @@ body.dark-mode {
 .dark-mode .project-card {
     background: var(--dark-bg-secondary);
     border: 1px solid var(--dark-border);
+}
+
+/* The featured card lays its text on the card surface rather than on an
+   image scrim, so it needs explicit dark-mode colours — without these the
+   title rendered near-black on near-black. */
+.dark-mode .bento-card--featured .project-info h3 {
+    color: var(--dark-text-primary);
+}
+
+.dark-mode .bento-card--featured .project-info p {
+    color: var(--dark-text-secondary);
 }
 
 .dark-mode .project-card:hover {
@@ -105,8 +126,9 @@ body.dark-mode {
     color: var(--primary-500);
 }
 
+/* --primary-500 is tuned for the light ground and drops to 2.2:1 here */
 .dark-mode .project-category {
-    color: var(--primary-500);
+    color: var(--dark-accent-primary);
 }
 
 .dark-mode .project-subtitle {
@@ -214,15 +236,16 @@ body.dark-mode {
     border-top: 1px solid var(--dark-border);
 }
 
-/* Buttons in Dark Mode */
+/* Buttons in Dark Mode
+   Light accent with dark label — white on the accent is only 2.4:1. */
 .dark-mode .primary-button {
-    background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
-    color: white;
-    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+    background: var(--dark-accent-primary);
+    color: var(--dark-bg-primary);
+    box-shadow: 0 8px 20px rgba(143, 194, 174, 0.18);
 }
 
 .dark-mode .primary-button:hover {
-    box-shadow: 0 12px 30px rgba(255, 107, 107, 0.4);
+    box-shadow: 0 12px 30px rgba(143, 194, 174, 0.26);
 }
 
 .dark-mode .btn--secondary {
@@ -369,17 +392,18 @@ body.dark-mode {
 }
 
 .dark-mode .timeline li::before {
-    background: var(--primary-500);
+    background: var(--dark-accent-primary);
     box-shadow: 0 0 0 3px var(--dark-bg-primary);
 }
 
+/* --primary-500 is the light-ground accent; on #121212 it is 2.5:1 */
 .dark-mode .date {
-    color: var(--primary-500);
+    color: var(--dark-accent-primary);
 }
 
 /* Focus States */
 .dark-mode :focus-visible {
-    outline: 2px solid var(--primary-500);
+    outline: 2px solid var(--dark-accent-primary);
     outline-offset: 2px;
 }
 

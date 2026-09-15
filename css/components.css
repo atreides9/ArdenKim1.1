@@ -82,9 +82,7 @@
     width: 100%;
     top: 0;
     z-index: 800;
-    background: rgba(239, 239, 239, 0.95);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: var(--neutral-50);
 }
 
 .nav-content {

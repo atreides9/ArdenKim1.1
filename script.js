@@ -184,22 +184,16 @@ class ThemeManager {
         return this.currentTheme;
     }
 
+    // Toggles a class instead of writing an inline background. The inline
+    // style used to win over every theme rule in CSS, so the nav kept its
+    // light background after switching to dark, and its hardcoded greys
+    // drifted out of sync with the palette.
     updateNavigationBackground() {
         const nav = document.querySelector('.nav-container');
-        const isDark = this.getEffectiveTheme() === 'dark';
-
         if (!nav) return;
 
-        if (isDark) {
-            nav.style.background = 'rgba(18, 18, 18, 0.95)';
-        } else {
-            const scrollPosition = window.scrollY;
-            if (scrollPosition > 100) {
-                nav.style.background = 'rgba(239, 239, 239, 0.95)';
-            } else {
-                nav.style.background = 'rgba(239, 239, 239, 0.85)';
-            }
-        }
+        nav.style.removeProperty('background');
+        nav.classList.toggle('is-scrolled', window.scrollY > 100);
     }
 }
 
@@ -219,12 +213,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const themeManager = new ThemeManager();
 
-    // Update navigation background on scroll (only for light mode)
+    // The scrolled state is now theme-agnostic, so it runs in both modes
     window.addEventListener('scroll', () => {
-        if (!document.body.classList.contains('dark-mode')) {
-            themeManager.updateNavigationBackground();
-        }
-    });
+        themeManager.updateNavigationBackground();
+    }, { passive: true });
 
     // In-page navigation scroll spy
     const sections = document.querySelectorAll('.project-section[id]');
@@ -496,6 +488,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const el = document.querySelector('.greeting-text');
     if (!el) return;
+    // Opt-in per page, and never against an explicit stillness preference —
+    // this ran on a forever setInterval with no such guard.
+    if (!el.dataset.rotate) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     let index = 0;
 

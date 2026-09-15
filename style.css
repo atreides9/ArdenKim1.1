@@ -1,21 +1,49 @@
 /* Base Styles */
 :root {
-    --bg-color: #fafafa;
-    --text-color: #1a1a1a;
-    --text-secondary: #4a4a4a;
-    --accent-color: #FF6B6B;
-    --secondary-color: #4ECDC4;
-    --border-color: #e5e5e5;
+    /* ── Color ─────────────────────────────────────────────
+       Warm neutral ground + single grounded accent.
+       Every text pair verified ≥ 4.5:1 against --bg-color. */
+    --bg-color: #FAF9F6;
+    --text-color: #1C1B19;
+    --text-secondary: #5A564F;
+    --text-muted: #6E6A62;
+    --accent-color: #2F5D50;
+    --accent-soft: rgba(47, 93, 80, 0.10);
+    --border-color: #DCD8D0;
     --card-bg: #ffffff;
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
+
+    /* ── Spacing (8px grid) ───────────────────────────────── */
+    --space-1: 8px;
+    --space-2: 16px;
+    --space-3: 24px;
+    --space-4: 32px;
+    --space-6: 48px;
+    --space-8: 64px;
+    --space-12: 96px;
+    --space-16: 128px;
+
+    /* ── Radius ───────────────────────────────────────────── */
+    --radius-sm: 8px;
+    --radius-card: 16px;
+    --radius-lg: 24px;
+
+    /* ── Motion ───────────────────────────────────────────── */
+    --dur-micro: 200ms;
+    --dur-base: 350ms;
+    --dur-page: 550ms;
+    --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition: all var(--dur-base) var(--ease);
+
+    /* ── Minimum touch target ─────────────────────────────── */
+    --tap-min: 44px;
+
     /* Dark mode variables for project pages */
-    --dark-bg-color: #1a1a1a;
-    --dark-bg-secondary: #2d2d2d;
+    --dark-bg-color: #121212;
+    --dark-bg-secondary: #1E1E1E;
     --dark-text-color: #f5f5f5;
-    --dark-text-secondary: #b8b8b8;
-    --dark-accent-color: #FF7B7B;
-    --dark-border-color: #404040;
+    --dark-text-secondary: #b3b3b3;
+    --dark-accent-color: #8FC2AE;
+    --dark-border-color: #3A3A3A;
 }
 
 * {
@@ -34,30 +62,29 @@ body {
 }
 
 
-/* Typography */
+/* Typography
+   Display leading is set explicitly on every heading level — without it
+   headings inherit the body's 1.7 and read as body copy at large sizes. */
 h1 {
-    font-size: clamp(3rem, 5vw, 4rem);
-    font-weight: 700;
-    line-height: 1.2;
-    margin: 1rem 0;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 600;
+    line-height: 1.15;
+    margin: var(--space-2) 0;
     letter-spacing: -0.02em;
 }
 
 h2 {
     font-size: clamp(2rem, 4vw, 2.5rem);
     font-weight: 600;
-    margin-bottom: 2rem;
+    line-height: 1.2;
+    margin-bottom: var(--space-4);
     letter-spacing: -0.01em;
 }
 
 .work-section h2,
-.about-section h2 {
-    font-family: 'Diphylleia', serif;
-    font-weight: 400;
-}
-
+.about-section h2,
 .contact-section h2 {
-    font-family: 'Bagel Fat One', cursive;
+    font-family: 'Diphylleia', serif;
     font-weight: 400;
 }
 
@@ -69,14 +96,28 @@ h2 {
 h3 {
     font-size: clamp(1.5rem, 3vw, 1.75rem);
     font-weight: 500;
-    margin: 2rem 0 1rem;
+    line-height: 1.25;
+    margin: var(--space-4) 0 var(--space-2);
     letter-spacing: -0.01em;
+}
+
+h4 {
+    line-height: 1.4;
+}
+
+/* Korean should wrap between words, not inside them —
+   "가는 것을" was breaking after "것". */
+h1,
+h2,
+h3,
+h4 {
+    word-break: keep-all;
 }
 
 p {
     font-size: clamp(1rem, 2vw, 1.125rem);
     line-height: 1.8;
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--space-3);
     word-break: keep-all;
     word-wrap: break-word;
 }
@@ -108,9 +149,18 @@ p {
     /* background: #FF6B6B;
     backdrop-filter: blur( 3px );
     -webkit-backdrop-filter: blur( 50px ); */
-    background: #efefef;
-    backdrop-filter: blur(2.5px);
-    -webkit-backdrop-filter: blur(2.5px);
+    /* Opaque and token-driven: a translucent bar let page content bleed
+       through behind the links, so measured contrast depended on scroll
+       position. Depth now comes from the border, not from alpha. */
+    background: var(--bg-color);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--dur-base) var(--ease),
+        box-shadow var(--dur-base) var(--ease);
+}
+
+.nav-container.is-scrolled {
+    border-bottom-color: var(--border-color);
+    box-shadow: 0 2px 16px rgba(28, 27, 25, 0.06);
 }
 
 .nav-content {
@@ -128,6 +178,10 @@ p {
     text-decoration: none;
     color: var(--text-color);
     letter-spacing: -0.5px;
+    /* 44px minimum tap target */
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-min);
 }
 
 .logo:hover {
@@ -147,7 +201,29 @@ p {
     font-weight: 500;
     font-size: 1.1rem;
     position: relative;
-    padding-bottom: 4px;
+    /* 44px minimum tap target — WCAG 2.5.5 / Fitts's Law */
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-min);
+    padding: 0 var(--space-1);
+    white-space: nowrap;
+}
+
+/* The 2.5rem gap plus the wider tap targets overflowed a 375px bar,
+   which broke each label onto two lines. */
+@media (max-width: 640px) {
+    .nav-links {
+        gap: var(--space-1);
+    }
+
+    .nav-links a {
+        font-size: 1rem;
+        padding: 0 4px;
+    }
+
+    .logo {
+        font-size: 1.25rem;
+    }
 }
 
 .nav-links a::after {
@@ -155,14 +231,14 @@ p {
     position: absolute;
     width: 0;
     height: 2px;
-    bottom: 0;
-    left: 0;
+    bottom: 9px;
+    left: var(--space-1);
     background-color: var(--accent-color);
-    transition: var(--transition);
+    transition: width var(--dur-base) var(--ease);
 }
 
 .nav-links a:hover::after {
-    width: 100%;
+    width: calc(100% - var(--space-2));
 }
 
 
@@ -308,13 +384,13 @@ p {
     z-index: 2;
     padding: 4px 10px;
     font-size: 0.75rem;
-    font-weight: 800;
+    font-weight: 700;
     color: #ffffff;
-    background: #009564;
-    border: 1.5px solid #0d9668;
+    /* #009564 gave white text only 3.83:1 */
+    background: var(--accent-color);
+    border: 1.5px solid var(--accent-color);
     border-radius: 20px;
     letter-spacing: 0.3px;
-    animation: badgeGlow 2.5s ease-in-out infinite;
 }
 
 @keyframes badgeGlow {
@@ -498,6 +574,12 @@ p {
     font-weight: 500;
     transition: var(--transition);
     position: relative;
+    /* 44px minimum tap target */
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    min-height: var(--tap-min);
+    padding: 0 var(--space-1);
 }
 
 .social-link::after {
@@ -505,14 +587,14 @@ p {
     position: absolute;
     width: 0;
     height: 2px;
-    bottom: -4px;
-    left: 0;
+    bottom: 8px;
+    left: var(--space-1);
     background-color: var(--accent-color);
-    transition: width 0.3s ease;
+    transition: width var(--dur-base) var(--ease);
 }
 
 .social-link:hover::after {
-    width: 100%;
+    width: calc(100% - var(--space-2));
 }
 
 .social-link:hover {
@@ -803,10 +885,13 @@ body {
 }
 
 .dark-mode .nav-container {
-    background: rgba(26, 26, 26, 0.85);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-bottom: 1px solid rgba(64, 64, 64, 0.3);
+    background: var(--dark-bg-color);
+    border-bottom: 1px solid transparent;
+}
+
+.dark-mode .nav-container.is-scrolled {
+    border-bottom-color: var(--dark-border-color);
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
 }
 
 .dark-mode .logo {
@@ -1014,12 +1099,15 @@ img {
 
 .reveal-text {
     font-family: 'Diphylleia', serif;
-    white-space: nowrap;
-    animation: revealText 1s ease forwards;
+    /* Diphylleia ships a single 400 weight — anything heavier is
+       synthesised by the browser and smears the strokes. */
+    font-weight: 400;
+    white-space: normal;
+    animation: revealText var(--dur-page) var(--ease) forwards;
 }
 
 .reveal-text-delay {
-    animation: revealText 1s ease 0.3s forwards;
+    animation: revealText var(--dur-page) var(--ease) 150ms forwards;
     opacity: 0;
 }
 
@@ -1469,59 +1557,75 @@ figcaption {
 /* Theme Toggle Button - Essential styles only */
 .theme-toggle {
     position: relative;
-    width: 50px;
-    height: 26px;
-    background: #f5f5f5;
-    border: 2px solid #efefef;
-    border-radius: 13px;
+    /* 44px tall so the switch itself is the tap target */
+    width: 56px;
+    height: var(--tap-min);
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 22px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: border-color var(--dur-base) var(--ease),
+        box-shadow var(--dur-base) var(--ease);
 }
 
 .theme-toggle::before {
     content: '';
     position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 18px;
-    height: 18px;
-    background: white;
+    top: 10px;
+    left: 4px;
+    width: 20px;
+    height: 20px;
+    background: var(--accent-color);
     border-radius: 50%;
-    transition: transform 0.3s ease;
+    transition: transform var(--dur-base) var(--ease);
 }
 
 .theme-toggle:hover {
-    border-color: #FF6B6B;
-    box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.1);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
 .sun-icon, .moon-icon {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 12px;
-    transition: opacity 0.3s ease;
+    width: 14px;
+    height: 14px;
+    color: var(--text-secondary);
+    transition: opacity var(--dur-base) var(--ease);
+    pointer-events: none;
+}
+
+.sun-icon svg, .moon-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
 }
 
 .sun-icon {
-    left: 4px;
+    right: 9px;
     opacity: 1;
 }
 
 .moon-icon {
-    right: 4px;
+    left: 9px;
     opacity: 0;
 }
 
 /* Dark mode toggle states */
 body.dark-mode .theme-toggle {
-    background: #2a2a2a;
-    border: 2px solid #555;
+    background: var(--dark-bg-secondary);
+    border: 2px solid var(--dark-border-color);
 }
 
 body.dark-mode .theme-toggle::before {
     transform: translateX(24px);
-    background: #f0f0f0;
+    background: var(--dark-accent-color);
+}
+
+body.dark-mode .sun-icon,
+body.dark-mode .moon-icon {
+    color: var(--dark-text-secondary);
 }
 
 body.dark-mode .sun-icon {
@@ -1736,4 +1840,184 @@ body.dark-mode .moon-icon {
   .jangpyo-slider img {
     height: 300px;
   }
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   Craft fixes — coop-ko
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Hero: keep the pointer on things you can actually click ──
+   .hero-section sets `cursor: none` for the image-follower effect,
+   which also removed the pointer affordance from the CTA. */
+.hero-section a,
+.hero-section button {
+    cursor: pointer;
+}
+
+/* ── Hero horizontal padding on the 8px grid ──────────────────
+   The 5% side padding resolved to 18.75px on a 375px viewport. */
+@media (max-width: 767px) {
+    .hero-section {
+        padding-left: var(--space-3);
+        padding-right: var(--space-3);
+    }
+}
+
+/* ── Timeline hierarchy ───────────────────────────────────────
+   Highlighted entries carry a filled marker and a supporting line;
+   everything else stays quiet so the strong items read first. */
+.timeline li.is-key::before {
+    width: 12px;
+    height: 12px;
+    top: 0.45rem;
+    left: -2px;
+    box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+.timeline li.is-key h4 {
+    font-weight: 600;
+}
+
+.timeline .entry-note {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+.timeline li:not(.is-key)::before {
+    background: var(--border-color);
+}
+
+body.dark-mode .timeline .entry-note {
+    color: var(--dark-text-secondary);
+}
+
+body.dark-mode .timeline li:not(.is-key)::before {
+    background: var(--dark-border-color);
+}
+
+/* ── Archive list: demoted projects, still reachable ─────────── */
+.work-archive {
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-color);
+}
+
+.work-archive-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: var(--space-2);
+}
+
+.work-archive-list {
+    list-style: none;
+    display: grid;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.work-archive-list a {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    min-height: var(--tap-min);
+    padding: var(--space-1) 0;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+    transition: color var(--dur-base) var(--ease),
+        padding-left var(--dur-base) var(--ease);
+}
+
+.work-archive-list a:hover {
+    color: var(--accent-color);
+    padding-left: var(--space-1);
+}
+
+.work-archive-name {
+    font-weight: 500;
+}
+
+.work-archive-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-left: auto;
+    text-align: right;
+}
+
+body.dark-mode .work-archive {
+    border-top-color: var(--dark-border-color);
+}
+
+body.dark-mode .work-archive-label {
+    color: var(--dark-text-secondary);
+}
+
+body.dark-mode .work-archive-list a {
+    border-bottom-color: var(--dark-border-color);
+    color: var(--dark-text-color);
+}
+
+body.dark-mode .work-archive-list a:hover {
+    color: var(--dark-accent-color);
+}
+
+body.dark-mode .work-archive-desc {
+    color: var(--dark-text-secondary);
+}
+
+@media (max-width: 600px) {
+    .work-archive-list a {
+        flex-direction: column;
+        gap: 2px;
+        padding: var(--space-1) 0;
+    }
+
+    .work-archive-desc {
+        margin-left: 0;
+        text-align: left;
+    }
+}
+
+/* ── Contact copy button ──────────────────────────────────── */
+.email-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    min-height: var(--tap-min);
+    padding: 0 var(--space-2);
+}
+
+.email-copy-btn svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+/* ── Reduced motion ───────────────────────────────────────────
+   style.css had no guard of its own, so its animations kept
+   running even when the OS asked for stillness. */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .reveal-text,
+    .reveal-text-delay {
+        opacity: 1 !important;
+        transform: none !important;
+    }
 }
