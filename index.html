@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sunmin Kim</title>
-    <link rel="icon" type="image/svg+xml" href="fernweh/favicon/favicon1.2.svg?v=2">
+    <link rel="icon" type="image/svg+xml" href="fernweh/favicon/favicon1.2.svg?v=3">
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/layout.css">
     <link rel="stylesheet" href="./css/components.css">
@@ -568,14 +568,14 @@
     <section id="work" class="work-section">
         <div class="work-section-header">
             <h2>함께한 일</h2>
-            <p class="work-section-sub">도움이 닿지 않던 자리에서 시작해, 사람들과 함께 만든 세 가지</p>
+            <p class="work-section-sub">도움이 닿지 않던 자리에서 시작해, 팀으로 또 혼자서 만들어 낸 세 가지</p>
         </div>
         <div class="bento-grid">
             <!-- Lead: Petbulance — 8-person team, shipped, Seoul AI hackathon finalist -->
             <div class="bento-card bento-card--featured">
                 <a href="petbulance.html" class="project-card-link">
                     <article class="project-card" style="position:relative;">
-                        <span class="badge-live">정식 출시</span>
+                        <span class="badge-live">출시 후 아카이브</span>
                         <div class="project-image">
                             <img src="fernweh/project-tile/petbulance_tile.png?v=20251201"
                                 alt="펫뷸런스 — 특수동물 응급 상황에서 갈 수 있는 병원을 지도에서 찾는 서비스">
@@ -589,35 +589,54 @@
                     </article>
                 </a>
             </div>
-            <!-- Learn-EZ -->
+            <!-- Otium — the one card that proves this is a real, running product -->
             <div class="bento-card bento-card--sm">
-                <a href="learnez.html" class="project-card-link">
+                <a href="otium.html" class="project-card-link">
                     <article class="project-card" style="position:relative;">
-                        <span class="badge-live">프로토타입</span>
+                        <span class="badge-live">MVP 배포</span>
                         <div class="project-image">
-                            <img src="fernweh/project-tile/learnez_tile.svg"
-                                alt="Learn-EZ — 누구나 질문하며 배울 수 있도록 설계한 학습 경험">
+                            <img src="fernweh/project-tile/otium_tile.svg" alt="오티움 — 곁에서 독서 습관을 만들어주는 AI 앱">
                         </div>
                         <div class="project-info">
-                            <span class="project-category">배움의 문턱 낮추기</span>
-                            <h3>Learn-EZ</h3>
-                            <p>혼자서는 시작하기 어려운 배움을, 묻고 답하며 이어갈 수 있도록 설계한 학습 경험</p>
+                            <span class="project-category">기획·디자인·개발 모두 혼자</span>
+                            <h3>오티움 (Otium)</h3>
+                            <p>혼자 있는 시간에도 곁에서 독서 습관을 만들어주는 AI 앱</p>
+                            <span class="launch-cta launch-cta--pinned"
+                                onclick="event.preventDefault(); event.stopPropagation(); window.open('https://otium-mvp.vercel.app/', '_blank');">
+                                오티움 MVP 바로가기
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M7 17L17 7" />
+                                    <path d="M7 7h10v10" />
+                                </svg>
+                            </span>
                         </div>
                     </article>
                 </a>
             </div>
-            <!-- BrainMate — started as a team project, carried on alone for two more months -->
+            <!-- AI Projects — anchored to the one artifact with real, third-party
+                 distribution: a Chrome extension that passed store review. -->
             <div class="bento-card bento-card--sm">
-                <a href="brainmate.html" class="project-card-link">
+                <a href="aiprojects.html" class="project-card-link">
                     <article class="project-card" style="position:relative;">
+                        <span class="badge-live">크롬 스토어 배포</span>
                         <div class="project-image">
-                            <img src="fernweh/project-tile/brainmate_tile.svg"
-                                alt="BrainMate — 모아둔 자료를 다시 찾을 수 있게 돕는 아카이빙 서비스">
+                            <img src="fernweh/project-tile/AIprojects_tile.svg?v=20260405"
+                                alt="0 to 1 : AI Projects — 아이디어를 하루 만에 만들어 내보낸 기록">
                         </div>
                         <div class="project-info">
-                            <span class="project-category">팀으로 시작해 혼자 2개월 더</span>
-                            <h3>BrainMate</h3>
-                            <p>모아두고도 다시 찾지 못하는 자료를, 쓰는 방식을 학습해 대신 정리해주는 서비스</p>
+                            <span class="project-category">하루 만에 기획 → 배포</span>
+                            <h3>0 to 1 : AI Projects</h3>
+                            <p>아이디어 하나를 하루 만에 기획하고 만들어, 실제 크롬 웹스토어에 올린 기록</p>
+                            <span class="launch-cta launch-cta--pinned"
+                                onclick="event.preventDefault(); event.stopPropagation(); window.open('https://chromewebstore.google.com/detail/%EB%B6%81%EB%A7%88%ED%81%AC-%ED%9D%A5%EC%8B%A0%EC%86%8C-bookmark-detectiv/cfgkicjcpchoieeemlhgmdjoeaafagoc?hl=ko', '_blank');">
+                                크롬 확장 프로그램 보러가기
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M7 17L17 7" />
+                                    <path d="M7 7h10v10" />
+                                </svg>
+                            </span>
                         </div>
                     </article>
                 </a>
@@ -629,9 +648,9 @@
             <span class="work-archive-label">그 외 작업 5건</span>
             <ul class="work-archive-list">
                 <li>
-                    <a href="otium.html">
-                        <span class="work-archive-name">오티움 (Otium)</span>
-                        <span class="work-archive-desc">읽는 습관을 만들어주는 앱 · 혼자 기획·디자인·개발</span>
+                    <a href="learnez.html">
+                        <span class="work-archive-name">Learn-EZ</span>
+                        <span class="work-archive-desc">배움의 문턱을 낮추는 AI-native 학습 프로토타입</span>
                     </a>
                 </li>
                 <li>
@@ -647,9 +666,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="aiprojects.html">
-                        <span class="work-archive-name">0 to 1 : AI Projects</span>
-                        <span class="work-archive-desc">아이디어를 빠르게 만들어 내보낸 기록</span>
+                    <a href="brainmate.html">
+                        <span class="work-archive-name">BrainMate</span>
+                        <span class="work-archive-desc">팀으로 시작해 혼자 2개월 더 이어간 아카이빙 서비스</span>
                     </a>
                 </li>
                 <li>
