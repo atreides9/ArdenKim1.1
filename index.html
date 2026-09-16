@@ -333,7 +333,11 @@
         }
 
         .bento-card--sm .project-category {
-            color: var(--primary-200, #B9CFC6);
+            /* --primary-200 reads legibly against a solid dark scrim, but
+               washes out over lighter photo areas; --primary-100 plus a
+               heavier weight holds up across both. */
+            color: var(--primary-100, #DDE8E3);
+            font-weight: 600;
             font-size: 0.75rem;
             letter-spacing: 0.8px;
             margin-bottom: 4px;
@@ -439,6 +443,14 @@
                 object-fit: cover;
             }
 
+            /* The source tile is a wide 960×480 device-mockup banner; cropped
+               to this card's tall mobile aspect, the default center crop
+               showed mostly empty navy background and a half-cut phone.
+               Shift the crop left to frame the phone screen instead. */
+            .bento-card--petbulance .project-image img {
+                object-position: 22% center;
+            }
+
             .bento-card--featured .project-info {
                 position: absolute;
                 bottom: 0;
@@ -464,7 +476,8 @@
             }
 
             .bento-card--featured .project-category {
-                color: var(--primary-200, #B9CFC6);
+                color: var(--primary-100, #DDE8E3);
+                font-weight: 600;
                 font-size: 0.75rem;
                 letter-spacing: 0.8px;
                 margin-bottom: 4px;
@@ -568,11 +581,11 @@
     <section id="work" class="work-section">
         <div class="work-section-header">
             <h2>함께한 일</h2>
-            <p class="work-section-sub">도움이 닿지 않던 자리에서 시작해, 팀으로 또 혼자서 만들어 낸 세 가지</p>
+            <p class="work-section-sub">도움이 닿지 않던 자리에서 시작해, 팀으로 또 혼자서 만들어 낸 작업물들</p>
         </div>
         <div class="bento-grid">
             <!-- Lead: Petbulance — 8-person team, shipped, Seoul AI hackathon finalist -->
-            <div class="bento-card bento-card--featured">
+            <div class="bento-card bento-card--featured bento-card--petbulance">
                 <a href="petbulance.html" class="project-card-link">
                     <article class="project-card" style="position:relative;">
                         <span class="badge-live">출시 후 아카이브</span>

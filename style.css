@@ -1899,6 +1899,25 @@ body.dark-mode .timeline li:not(.is-key)::before {
     background: var(--dark-border-color);
 }
 
+/* .timeline li is a flex row with the date column fixed at 120px
+   (components.css) — on a narrow phone that leaves barely 100px for the
+   description, forcing it to wrap into a sliver. Stack date above
+   content instead once the row can't afford a fixed-width column. */
+@media (max-width: 560px) {
+    .timeline li {
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .date {
+        min-width: 0;
+    }
+
+    .timeline-content {
+        margin-top: 2px;
+    }
+}
+
 /* ── Archive list: demoted projects, still reachable ─────────── */
 .work-archive {
     margin-top: var(--space-6);
