@@ -215,11 +215,14 @@
         /* ── Work Section Header ───────────────────────────── */
         .work-section-header {
             text-align: center;
-            margin-bottom: 3rem;
+            /* Gap to the bento grid below — was 3rem, read as cramped
+               against the section's own 12rem top/bottom padding. */
+            margin-bottom: var(--space-8);
         }
 
         .work-section-header h2 {
-            margin-bottom: 0.5rem;
+            /* Was 0.5rem — heading and subtitle nearly touched. */
+            margin-bottom: var(--space-2);
         }
 
         /* Full-opacity secondary colour instead of opacity on near-black,
@@ -510,7 +513,7 @@
                     class="nav-name-short">SmK</span></a>
             <!-- Order follows the page order: Work → About → Contact -->
             <ul class="nav-links">
-                <li><a href="#work">함께한 일</a></li>
+                <li><a href="#work">만든 것들</a></li>
                 <li><a href="#about"><span class="nav-about-full">소개</span><span
                             class="nav-about-short">소개</span></a></li>
                 <li><a href="#contact">연락</a></li>
@@ -556,7 +559,7 @@
                 <h1 class="reveal-text">혼자 빠른 것보다,<br>함께 오래 가는 것을 만듭니다.</h1>
                 <p class="subtitle reveal-text-delay">도움이 닿지 않는 자리를 찾아, 그 자리에 있는 사람들을 위한 서비스를 만들어 왔습니다.</p>
                 <div class="hero-cta">
-                    <a href="#work" class="primary-button">함께한 일 보기</a>
+                    <a href="#work" class="primary-button">만든 것들 보기</a>
                 </div>
             </div>
         </div>
@@ -572,7 +575,7 @@
          Eight equally-sized cards read as a catalogue, not a point of view. -->
     <section id="work" class="work-section">
         <div class="work-section-header">
-            <h2>함께한 일</h2>
+            <h2>만든 것들</h2>
             <p class="work-section-sub">도움이 닿지 않던 자리에서 시작해, 팀으로 또 혼자서 만들어 낸 작업물들</p>
         </div>
         <div class="bento-grid">
