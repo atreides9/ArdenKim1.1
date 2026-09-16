@@ -423,28 +423,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentGroup = [];
     let currentIndex = 0;
+    let lastFocused = null;
+
+    // Board thumbnails are ~560px; the lightbox wants the 1600px version.
+    function show() {
+        const img = currentGroup[currentIndex];
+        lbImg.src = img.dataset.large || img.src;
+        lbImg.alt = img.alt;
+    }
 
     function openLightbox(imgs, index) {
         currentGroup = imgs;
         currentIndex = index;
-        lbImg.src = currentGroup[currentIndex].src;
-        lbImg.alt = currentGroup[currentIndex].alt;
+        show();
+        lastFocused = document.activeElement;
+        lightbox.hidden = false;
         lightbox.classList.add('active');
+        // Compensate for the vanishing scrollbar so the page doesn't shift.
+        const gap = window.innerWidth - document.documentElement.clientWidth;
         document.body.style.overflow = 'hidden';
+        if (gap > 0) document.body.style.paddingRight = gap + 'px';
+        closeBtn.focus();
     }
 
     function closeLightbox() {
         lightbox.classList.remove('active');
+        lightbox.hidden = true;
         document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+        if (lastFocused && lastFocused.focus) lastFocused.focus();
     }
 
     function navigate(dir) {
+        if (!prevBtn || currentGroup.length < 2) return;
         currentIndex = (currentIndex + dir + currentGroup.length) % currentGroup.length;
-        lbImg.src = currentGroup[currentIndex].src;
-        lbImg.alt = currentGroup[currentIndex].alt;
+        show();
     }
 
-    document.querySelectorAll('.sd-group').forEach(group => {
+    // .sd-group is the screendesign pages' hook; the curation gallery opts
+    // in separately so it doesn't inherit that class's page layout margins.
+    document.querySelectorAll('.sd-group, .curation-frame__stage').forEach(group => {
         const imgs = Array.from(group.querySelectorAll('.sd-img'));
         imgs.forEach((img, i) => {
             img.addEventListener('click', () => openLightbox(imgs, i));
@@ -453,8 +471,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     closeBtn.addEventListener('click', closeLightbox);
     lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
-    prevBtn.addEventListener('click', e => { e.stopPropagation(); navigate(-1); });
-    nextBtn.addEventListener('click', e => { e.stopPropagation(); navigate(1); });
+    // Paging is opt-in by markup: the hero board's lightbox renders no
+    // prev/next, since those frames are meant to be watched, not browsed.
+    if (prevBtn) prevBtn.addEventListener('click', e => { e.stopPropagation(); navigate(-1); });
+    if (nextBtn) nextBtn.addEventListener('click', e => { e.stopPropagation(); navigate(1); });
     document.addEventListener('keydown', e => {
         if (!lightbox.classList.contains('active')) return;
         if (e.key === 'Escape') closeLightbox();
@@ -508,3 +528,82 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 2500);
 })();
 
+
+// ===== CURATION GALLERY =====
+// Each frame holds its whole set stacked; only .is-active is visible and
+// clickable. Frames cycle on staggered timers so the gallery changes one
+// photo at a time instead of several at once.
+(function () {
+    const frames = document.querySelectorAll('.curation-frame__stage');
+    if (!frames.length) return;
+
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // The gallery is desktop-only; without this the timers would keep
+    // preloading photos behind a display:none section on phones.
+    const onBoardBreakpoint = window.matchMedia('(min-width: 1024px)');
+
+    frames.forEach(frame => {
+        const imgs = Array.from(frame.querySelectorAll('.sd-img'));
+        if (imgs.length < 2) return;
+
+        const interval = parseInt(frame.dataset.boardInterval, 10);
+        const delay = parseInt(frame.dataset.boardDelay, 10) || 0;
+        let index = 0;
+        let timer = null;
+        let startTimer = null;
+
+        // Thumbnails past the cover carry data-src so the hero doesn't pull
+        // the whole set on load.
+        function load(i) {
+            const img = imgs[i];
+            if (img && img.dataset.src) {
+                img.src = img.dataset.src;
+                delete img.dataset.src;
+            }
+        }
+
+        function go(dir) {
+            const next = (index + dir + imgs.length) % imgs.length;
+            load(next);
+            imgs[index].classList.remove('is-active');
+            imgs[next].classList.add('is-active');
+            index = next;
+            load((next + 1) % imgs.length); // stay one ahead
+        }
+
+        function stop() {
+            clearInterval(timer);
+            clearTimeout(startTimer);
+            timer = startTimer = null;
+        }
+
+        function start() {
+            if (still || !interval) return;
+            if (!onBoardBreakpoint.matches) return;
+            if (timer || startTimer) return; // idempotent: a re-entry from
+            // visibilitychange used to stack a second interval on the frame
+            startTimer = setTimeout(() => {
+                startTimer = null;
+                load((index + 1) % imgs.length);
+                timer = setInterval(() => go(1), interval);
+            }, delay);
+        }
+
+        // Don't burn timers on a tab nobody is looking at.
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                if (timer || startTimer) { stop(); frame._wasRunning = true; }
+            } else if (frame._wasRunning) {
+                frame._wasRunning = false;
+                start();
+            }
+        });
+
+        // Start or stop as the viewport crosses the board's breakpoint.
+        onBoardBreakpoint.addEventListener('change', e => {
+            if (e.matches) start(); else stop();
+        });
+
+        start();
+    });
+})();

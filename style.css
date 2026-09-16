@@ -1060,15 +1060,41 @@ footer p {
     border-color: var(--accent-color);
 }
 
+/* Hackathon photo grid (petbulance.html, Learnings) — plain documentary
+   snapshots, not key visuals, so no lightbox and no hover lift. */
+.hackathon-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 2rem 0 1rem;
+}
+
+.hackathon-gallery img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+body.dark-mode .hackathon-gallery img {
+    border-color: var(--dark-border-color);
+}
+
 @media (max-width: 768px) {
     .img-main {
         max-width: 90vw;
         margin: 2rem auto;
     }
-    
+
     .img-process {
         max-width: 90vw;
         margin: 1.5rem auto;
+    }
+
+    .hackathon-gallery {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
@@ -2039,4 +2065,210 @@ body.dark-mode .work-archive-desc {
         opacity: 1 !important;
         transform: none !important;
     }
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   Curation gallery — a small photo exhibit, hung like a real
+   gallery wall. Lives after About now (see index.html), not
+   beside the hero copy, and is desktop-only: phones already
+   carry plenty of content without an exhibit on top.
+   ═══════════════════════════════════════════════════════════ */
+
+.curation-section {
+    display: none;
+}
+
+@media (min-width: 1024px) {
+    .curation-section {
+        display: block;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: var(--space-16) 5%;
+    }
+}
+
+.curation-intro {
+    max-width: 640px;
+    margin-bottom: var(--space-12);
+}
+
+.curation-intro h2 {
+    margin-bottom: var(--space-2);
+}
+
+.curation-intro p {
+    color: var(--text-secondary);
+}
+
+.curation-gallery {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: clamp(32px, 3.5vw, 56px);
+    /* Bigger mat and frames than the old hero version — this section has
+       the whole row to itself instead of sharing space with headline text. */
+    --mat: clamp(10px, 1vw, 14px);
+}
+
+.curation-frame {
+    flex: 0 0 auto;
+    margin: 0;
+    /* Room for the mat, which is drawn with box-shadow on the stage so
+       the photo area itself keeps an exact aspect ratio. */
+    padding: var(--mat);
+}
+
+.curation-frame__stage {
+    position: relative;
+    overflow: hidden;
+    background: var(--neutral-100);
+    /* Fixed stops rather than a vw-based clamp: the section's own
+       percentage padding is resolved against the viewport, not against
+       its max-width-capped box, so content width doesn't scale linearly
+       past 1400px — a smooth clamp overshot and wrapped the row there. */
+    height: 280px;
+    box-shadow:
+        0 0 0 var(--mat) #fff,
+        0 0 0 calc(var(--mat) + 1px) rgba(28, 27, 25, 0.09),
+        0 26px 40px -20px rgba(28, 27, 25, 0.34);
+}
+
+.curation-frame--place .curation-frame__stage,
+.curation-frame--detail .curation-frame__stage {
+    aspect-ratio: 3 / 4;
+}
+
+.curation-frame--landscape .curation-frame__stage {
+    aspect-ratio: 4 / 3;
+}
+
+@media (min-width: 1280px) {
+    .curation-frame__stage {
+        height: 320px;
+    }
+}
+
+@media (min-width: 1440px) {
+    .curation-frame__stage {
+        height: 360px;
+    }
+}
+
+@media (min-width: 1920px) {
+    .curation-frame__stage {
+        height: 400px;
+    }
+}
+
+.curation-frame__stage .sd-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    cursor: zoom-in;
+    /* All photos are stacked at the same spot, so without this the last
+       image in DOM order would swallow the click instead of the visible one. */
+    pointer-events: none;
+    transition: opacity 900ms var(--ease);
+}
+
+.curation-frame__stage .sd-img.is-active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ── Wall label ─────────────────────────────────────────────── */
+.curation-frame figcaption {
+    /* The global figcaption carries `margin: 0 auto 3rem` for article
+       images; here the label hangs flush with the mat's outer right
+       edge, title then a one-line curatorial caption beneath it. */
+    max-width: none;
+    margin: calc(var(--mat) + 12px) calc(-1 * var(--mat)) 0 0;
+    padding: 0;
+    text-align: right;
+}
+
+.curation-frame__title {
+    display: block;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--text-color);
+    letter-spacing: -0.01em;
+    word-break: keep-all;
+}
+
+.curation-frame__caption {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+    word-break: keep-all;
+}
+
+body.dark-mode .curation-frame__stage {
+    box-shadow:
+        0 0 0 var(--mat) var(--dark-bg-secondary),
+        0 0 0 calc(var(--mat) + 1px) rgba(255, 255, 255, 0.07),
+        0 26px 40px -20px rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode .curation-frame__title {
+    color: var(--dark-text-color);
+}
+
+body.dark-mode .curation-frame__caption {
+    color: var(--dark-text-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .curation-frame__stage .sd-img {
+        transition: none;
+    }
+}
+
+/* ── Idea for later, not implemented: a dimmer room ────────────
+   In light mode, drop the section background a few shades and put a
+   soft radial "spotlight" glow above each frame (a ::before with a
+   blurred gradient positioned over the mat) so the row reads like
+   walking into a small gallery room rather than a page section.
+   Skipping for now — needs its own contrast/legibility pass on the
+   title + caption colors against a darker ground before it ships. */
+
+/* ── Lightbox additions ───────────────────────────────────────
+   The base styles already existed; these close the gaps. */
+.sd-lightbox[hidden] {
+    display: none !important;
+}
+
+.sd-lightbox-close,
+.sd-lightbox-prev,
+.sd-lightbox-next {
+    min-width: var(--tap-min);
+    min-height: var(--tap-min);
+    z-index: 2;
+}
+
+.sd-lightbox-close:focus-visible,
+.sd-lightbox-prev:focus-visible,
+.sd-lightbox-next:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+.sd-lightbox__caption {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 80vw;
+    font-family: 'Diphylleia', serif;
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.82);
+    text-align: center;
 }

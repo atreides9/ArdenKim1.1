@@ -25,7 +25,12 @@
             const theme = localStorage.getItem('theme');
             if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 document.documentElement.classList.add('dark-mode-loading');
-                document.body.classList.add('dark-mode');
+                // This runs in <head>, where document.body doesn't exist yet —
+                // it used to throw here, so the class never landed and dark
+                // visitors still got a flash of the light theme.
+                const markBody = () => document.body.classList.add('dark-mode');
+                if (document.body) markBody();
+                else document.addEventListener('DOMContentLoaded', markBody, { once: true });
             }
         })();
     </script>
@@ -109,6 +114,41 @@
 
         .bento-card--sm {
             grid-column: span 4;
+        }
+
+        /* ── Per-project hover cursors ──────────────────────────
+           Each cursor states what the product does, rather than being
+           decoration: a hospital pin, a bookmark, a terminal prompt.
+           One visual family — white body with tone-on-tone pine linework
+           (no hard black outline, which read as foreign against the warm
+           palette) — so they stay legible over both the bright artwork at
+           the top of a tile and the near-black scrim at the bottom.
+           Rendered at ~40px via width/height while the viewBox stays put,
+           so stroke weights are given in the smaller user-unit space.
+           Every rule keeps `pointer` as the fallback, so the tile still
+           signals "clickable" if the SVG cursor is unsupported. */
+
+        /* Petbulance — map pin with a medical cross; hotspot at the tip */
+        .bento-card--petbulance .project-card-link {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 28 28'%3E%3Cpath d='M14 2.5a8 8 0 0 0-8 8c0 5 5.6 11 7.3 13.9a0.8 0.8 0 0 0 1.4 0C16.4 21.5 22 15.5 22 10.5a8 8 0 0 0-8-8Z' fill='%23FFFFFF' stroke='%232F5D50' stroke-width='1.15' stroke-linejoin='round'/%3E%3Cpath d='M14 7.2v6.4M10.8 10.4h6.4' stroke='%232F5D50' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") 20 34, pointer;
+        }
+
+        /* Otium — a bookmark slipped in at an angle; two uneven inner
+           lines read as page text, where a single line read as a dash */
+        .bento-card--otium .project-card-link {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='41' viewBox='0 0 26 28'%3E%3Cg transform='rotate(-8 13 14)'%3E%3Cpath d='M8.5 3.5h9v20.2l-4.5-4.8-4.5 4.8z' fill='%23FFFFFF' stroke='%232F5D50' stroke-width='1.15' stroke-linejoin='round'/%3E%3Cg stroke='%232F5D50' stroke-width='1.25' stroke-linecap='round'%3E%3Cpath d='M10.9 8.2h4.2'/%3E%3Cpath d='M10.9 11.4h2.6'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") 19 7, pointer;
+        }
+
+        /* AI Projects — shell prompt: chevron sitting tight against a
+           block caret, so the pair reads as one prompt rather than two marks */
+        .bento-card--aiprojects .project-card-link {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='28' viewBox='0 0 24 20'%3E%3Cg fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 5.8 7.6 10 3.5 14.2' stroke='%23FFFFFF' stroke-width='3.6'/%3E%3Cpath d='M3.5 5.8 7.6 10 3.5 14.2' stroke='%232F5D50' stroke-width='1.9'/%3E%3C/g%3E%3Crect x='11' y='5' width='6.2' height='10' rx='0.8' fill='%23FFFFFF' stroke='%232F5D50' stroke-width='1.15'/%3E%3C/svg%3E") 20 14, pointer;
+        }
+
+        /* The pinned live-link chips open a different destination, so they
+           keep the plain pointer to read as their own target. */
+        .bento-card .launch-cta {
+            cursor: pointer;
         }
 
         /* What's Next wrapper — grid-column via class, not inline style */
@@ -237,45 +277,6 @@
 
         body.dark-mode .work-section-sub {
             color: var(--dark-text-secondary);
-        }
-
-        /* Hero custom cursor */
-        .hero-section {
-            cursor: none;
-        }
-
-        #hero-cursor {
-            position: fixed;
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.85);
-            transition: opacity 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            will-change: left, top, transform;
-        }
-
-        #hero-cursor.visible {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        #hero-cursor img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            #hero-cursor {
-                transition: opacity 150ms ease;
-            }
         }
 
         /* ── Featured card: fix image height ──────────────────── */
@@ -501,11 +502,6 @@
 
 <body id="top" class="preload">
 
-    <!-- Hero custom cursor -->
-    <div id="hero-cursor" aria-hidden="true">
-        <img src="sommer/smk.png" alt="">
-    </div>
-
     <!-- Navigation -->
     <nav class="nav-container">
         <div class="nav-content">
@@ -562,8 +558,16 @@
                     <a href="#work" class="primary-button">만든 것들 보기</a>
                 </div>
             </div>
+
         </div>
     </section>
+
+    <!-- Shared lightbox: the logic already lived in script.js but no page
+         had ever rendered the markup for it. -->
+    <div class="sd-lightbox" id="sd-lightbox" role="dialog" aria-modal="true" aria-label="사진 크게 보기" hidden>
+        <button type="button" class="sd-lightbox-close" aria-label="닫기">&times;</button>
+        <img id="sd-lightbox-img" src="" alt="">
+    </div>
 
 
 
@@ -580,7 +584,7 @@
         </div>
         <div class="bento-grid">
             <!-- Lead: Petbulance — 8-person team, shipped, Seoul AI hackathon finalist -->
-            <div class="bento-card bento-card--featured">
+            <div class="bento-card bento-card--featured bento-card--petbulance">
                 <a href="petbulance.html" class="project-card-link">
                     <article class="project-card" style="position:relative;">
                         <span class="badge-live">출시 후 아카이브</span>
@@ -598,7 +602,7 @@
                 </a>
             </div>
             <!-- Otium — the one card that proves this is a real, running product -->
-            <div class="bento-card bento-card--sm">
+            <div class="bento-card bento-card--sm bento-card--otium">
                 <a href="otium.html" class="project-card-link">
                     <article class="project-card" style="position:relative;">
                         <span class="badge-live">MVP 배포</span>
@@ -624,7 +628,7 @@
             </div>
             <!-- AI Projects — anchored to the one artifact with real, third-party
                  distribution: a Chrome extension that passed store review. -->
-            <div class="bento-card bento-card--sm">
+            <div class="bento-card bento-card--sm bento-card--aiprojects">
                 <a href="aiprojects.html" class="project-card-link">
                     <article class="project-card" style="position:relative;">
                         <span class="badge-live">크롬 스토어 배포</span>
@@ -804,7 +808,94 @@
     </section>
 
 
+    <!-- Curation gallery: a small photo exhibit, hung like a real gallery
+         wall. Lives after About rather than beside the hero copy — the two
+         were competing for attention up top, and this reads better as its
+         own quiet room after the "who I am" section. Desktop-only; phones
+         already carry enough content without an exhibit on top. -->
+    <section id="curation" class="curation-section">
+        <div class="curation-intro">
+            <h2>발견의 기록</h2>
+            <p>여행과 일상에서 마음에 걸린 순간을 사진으로 모아왔습니다. 풍경과 사물, 사람 —
+                발견하는 눈이 결국 만드는 눈으로 이어진다고 생각합니다.</p>
+        </div>
 
+        <div class="curation-gallery">
+            <figure class="curation-frame curation-frame--place">
+                <div class="curation-frame__stage" data-board-interval="9000" data-board-delay="0">
+                    <img class="sd-img is-active" loading="lazy" src="fernweh/board/port_00_t.webp" data-large="fernweh/board/port_00_l.webp" alt="오르세 미술관의 커다란 시계 창">
+                    <img class="sd-img" data-src="fernweh/board/port_01_t.webp" data-large="fernweh/board/port_01_l.webp" alt="구름이 극적으로 깔린 센 강과 다리">
+                    <img class="sd-img" data-src="fernweh/board/port_02_t.webp" data-large="fernweh/board/port_02_l.webp" alt="구겐하임 미술관의 나선형 전시 공간">
+                    <img class="sd-img" data-src="fernweh/board/port_06_t.webp" data-large="fernweh/board/port_06_l.webp" alt="파란 하늘 아래 피렌체 두오모">
+                    <img class="sd-img" data-src="fernweh/board/port_08_t.webp" data-large="fernweh/board/port_08_l.webp" alt="한 사람만 서 있는 미니멀한 전시장">
+                    <img class="sd-img" data-src="fernweh/board/port_09_t.webp" data-large="fernweh/board/port_09_l.webp" alt="해질 무렵 불이 켜진 강변의 궁전">
+                    <img class="sd-img" data-src="fernweh/board/port_11_t.webp" data-large="fernweh/board/port_11_l.webp" alt="초록이 우거진 숲속 길">
+                    <img class="sd-img" data-src="fernweh/board/port_15_t.webp" data-large="fernweh/board/port_15_l.webp" alt="턴테이블과 앨범이 가득한 음반 가게">
+                    <img class="sd-img" data-src="fernweh/board/port_16_t.webp" data-large="fernweh/board/port_16_l.webp" alt="파란 하늘 아래 물결치는 곡선의 건물">
+                    <img class="sd-img" data-src="fernweh/board/port_18_t.webp" data-large="fernweh/board/port_18_l.webp" alt="눈 덮인 언덕 위 겨울나무">
+                    <img class="sd-img" data-src="fernweh/board/port_19_t.webp" data-large="fernweh/board/port_19_l.webp" alt="유리 천장 아래 놓인 고대 석조 신전">
+                    <img class="sd-img" data-src="fernweh/board/port_21_t.webp" data-large="fernweh/board/port_21_l.webp" alt="큰 나무 그늘 아래 쉬고 있는 사람들">
+                    <img class="sd-img" data-src="fernweh/board/port_22_t.webp" data-large="fernweh/board/port_22_l.webp" alt="기둥 사이로 보이는 화려한 궁전 정원">
+                    <img class="sd-img" data-src="fernweh/board/port_24_t.webp" data-large="fernweh/board/port_24_l.webp" alt="길게 이어진 석조 열주 통로">
+                    <img class="sd-img" data-src="fernweh/board/port_26_t.webp" data-large="fernweh/board/port_26_l.webp" alt="초록 표지판이 달린 붉은 벽돌 건물">
+                    <img class="sd-img" data-src="fernweh/board/port_28_t.webp" data-large="fernweh/board/port_28_l.webp" alt="신호등과 나무가 있는 초록 거리">
+                    <img class="sd-img" data-src="fernweh/board/port_29_t.webp" data-large="fernweh/board/port_29_l.webp" alt="통창 너머 도시가 보이는 곡선 라운지">
+                    <img class="sd-img" data-src="fernweh/board/port_31_t.webp" data-large="fernweh/board/port_31_l.webp" alt="단청 지붕 아래 넓은 한옥 정자">
+                </div>
+                <figcaption>
+                    <span class="curation-frame__title">지나온 자리들</span>
+                    <span class="curation-frame__caption">낯선 거리와 빛이 만든 공간들, 걸음이 멈췄던 자리마다 담았다.</span>
+                </figcaption>
+            </figure>
+
+            <figure class="curation-frame curation-frame--detail">
+                <div class="curation-frame__stage" data-board-interval="9000" data-board-delay="3000">
+                    <img class="sd-img is-active" loading="lazy" src="fernweh/board/port_03_t.webp" data-large="fernweh/board/port_03_l.webp" alt="가득 피어난 데이지 꽃밭">
+                    <img class="sd-img" data-src="fernweh/board/port_04_t.webp" data-large="fernweh/board/port_04_l.webp" alt="생트샤펠의 스테인드글라스">
+                    <img class="sd-img" data-src="fernweh/board/port_05_t.webp" data-large="fernweh/board/port_05_l.webp" alt="대리석 테이블 위의 아이스 커피 한 잔">
+                    <img class="sd-img" data-src="fernweh/board/port_07_t.webp" data-large="fernweh/board/port_07_l.webp" alt="주황빛 벽에 그림자를 드리운 불상 조각">
+                    <img class="sd-img" data-src="fernweh/board/port_10_t.webp" data-large="fernweh/board/port_10_l.webp" alt="붉은 벽에 난 원형 창">
+                    <img class="sd-img" data-src="fernweh/board/port_12_t.webp" data-large="fernweh/board/port_12_l.webp" alt="곡선 벽을 따라 걸린 수련 그림 앞에 선 사람">
+                    <img class="sd-img" data-src="fernweh/board/port_13_t.webp" data-large="fernweh/board/port_13_l.webp" alt="맑은 하늘을 배경으로 한 꽃 핀 가지">
+                    <img class="sd-img" data-src="fernweh/board/port_14_t.webp" data-large="fernweh/board/port_14_l.webp" alt="바로크 양식 천장의 원형 채광창">
+                    <img class="sd-img" data-src="fernweh/board/port_17_t.webp" data-large="fernweh/board/port_17_l.webp" alt="초록 잎이 가득한 대형 회화">
+                    <img class="sd-img" data-src="fernweh/board/port_20_t.webp" data-large="fernweh/board/port_20_l.webp" alt="두 얼굴이 겹친 강렬한 색의 초상화">
+                    <img class="sd-img" data-src="fernweh/board/port_23_t.webp" data-large="fernweh/board/port_23_l.webp" alt="채소와 과일이 층층이 쌓인 진열대">
+                    <img class="sd-img" data-src="fernweh/board/port_25_t.webp" data-large="fernweh/board/port_25_l.webp" alt="꽃 모자를 쓴 인물의 거친 붓터치 회화">
+                    <img class="sd-img" data-src="fernweh/board/port_27_t.webp" data-large="fernweh/board/port_27_l.webp" alt="주황빛 벽에 드리운 불상의 그림자">
+                    <img class="sd-img" data-src="fernweh/board/port_30_t.webp" data-large="fernweh/board/port_30_l.webp" alt="금빛 액자 속 클림트 풍 회화">
+                    <img class="sd-img" data-src="fernweh/board/port_32_t.webp" data-large="fernweh/board/port_32_l.webp" alt="분홍빛 타일에 떠오른 흐릿한 형상">
+                    <img class="sd-img" data-src="fernweh/board/port_33_t.webp" data-large="fernweh/board/port_33_l.webp" alt="노란 원이 걸린 넓은 전시장">
+                    <img class="sd-img" data-src="fernweh/board/port_34_t.webp" data-large="fernweh/board/port_34_l.webp" alt="담장에 그려진 노부부의 입맞춤 벽화">
+                    <img class="sd-img" data-src="fernweh/board/port_35_t.webp" data-large="fernweh/board/port_35_l.webp" alt="천사가 조각된 반원형 부조">
+                    <img class="sd-img" data-src="fernweh/board/port_36_t.webp" data-large="fernweh/board/port_36_l.webp" alt="초록 들판을 그린 풍경화">
+                    <img class="sd-img" data-src="fernweh/board/port_37_t.webp" data-large="fernweh/board/port_37_l.webp" alt="어두운 전시장 그림 앞에 모인 관람객">
+                    <img class="sd-img" data-src="fernweh/board/port_38_t.webp" data-large="fernweh/board/port_38_l.webp" alt="NOTHING IS SACRED 문구가 있는 흰 전시 공간">
+                    <img class="sd-img" data-src="fernweh/board/port_39_t.webp" data-large="fernweh/board/port_39_l.webp" alt="어두운 진열장 너머의 전시품">
+                    <img class="sd-img" data-src="fernweh/board/port_40_t.webp" data-large="fernweh/board/port_40_l.webp" alt="흰 벽을 가득 채운 검은 형상들">
+                </div>
+                <figcaption>
+                    <span class="curation-frame__title">가까이 본 것들</span>
+                    <span class="curation-frame__caption">가까이 다가가야 보이는 색과 결. 사소한 것에서 아름다움을 찾는다.</span>
+                </figcaption>
+            </figure>
+
+            <figure class="curation-frame curation-frame--landscape">
+                <div class="curation-frame__stage" data-board-interval="9000" data-board-delay="6000">
+                    <img class="sd-img is-active" loading="lazy" src="fernweh/board/land_00_t.webp" data-large="fernweh/board/land_00_l.webp" alt="강 건너로 바라본 피렌체 시내">
+                    <img class="sd-img" data-src="fernweh/board/land_01_t.webp" data-large="fernweh/board/land_01_l.webp" alt="발끝까지 밀려온 바닷물">
+                    <img class="sd-img" data-src="fernweh/board/land_02_t.webp" data-large="fernweh/board/land_02_l.webp" alt="어두운 전시장의 산호색 조각 작품">
+                    <img class="sd-img" data-src="fernweh/board/land_03_t.webp" data-large="fernweh/board/land_03_l.webp" alt="헤드폰을 끼고 창밖을 보는 모습">
+                    <img class="sd-img" data-src="fernweh/board/land_04_t.webp" data-large="fernweh/board/land_04_l.webp" alt="반 고흐의 붓꽃 그림">
+                    <img class="sd-img" data-src="fernweh/board/land_05_t.webp" data-large="fernweh/board/land_05_l.webp" alt="푸른 잉크가 번진 대형 추상화">
+                </div>
+                <figcaption>
+                    <span class="curation-frame__title">머물렀던 자리들</span>
+                    <span class="curation-frame__caption">잠시 머물렀던 자리에서 바라본 풍경들.</span>
+                </figcaption>
+            </figure>
+        </div>
+    </section>
 
 
     <!-- Contact Section -->
@@ -847,48 +938,6 @@
 
     <script src="./script.js"></script>
 
-    <script>
-        /* ── Hero section custom cursor ──────────────────────────────────── */
-        (function () {
-            const heroCursor = document.getElementById('hero-cursor');
-            const heroSection = document.getElementById('hero');
-            if (!heroCursor || !heroSection) return;
-
-            let raf = null;
-            let tx = 0, ty = 0, cx = 0, cy = 0;
-            let active = false;
-
-            function lerp(a, b, t) { return a + (b - a) * t; }
-
-            function tick() {
-                cx = lerp(cx, tx, 0.1);
-                cy = lerp(cy, ty, 0.1);
-                heroCursor.style.left = cx + 'px';
-                heroCursor.style.top = cy + 'px';
-                if (active) raf = requestAnimationFrame(tick);
-            }
-
-            heroSection.addEventListener('mouseenter', function (e) {
-                tx = cx = e.clientX;
-                ty = cy = e.clientY;
-                active = true;
-                heroCursor.classList.add('visible');
-                if (!raf) raf = requestAnimationFrame(tick);
-            });
-
-            heroSection.addEventListener('mouseleave', function () {
-                active = false;
-                heroCursor.classList.remove('visible');
-                cancelAnimationFrame(raf);
-                raf = null;
-            });
-
-            heroSection.addEventListener('mousemove', function (e) {
-                tx = e.clientX;
-                ty = e.clientY;
-            });
-        })();
-    </script>
     <script>
         (function () {
             /* Swap the hero line per audience with ?v= — e.g. ?v=coop2
@@ -949,8 +998,6 @@
             if (config.iframe) {
                 heroSection.innerHTML = `<iframe src="${config.iframe}" style="width:100%;height:100vh;border:none;display:block;" scrolling="no"></iframe>`;
                 heroSection.style.cssText = 'width:100%;height:100vh;position:relative;overflow:hidden;padding:0;';
-                const heroC = document.getElementById('hero-cursor');
-                if (heroC) heroC.style.display = 'none';
             } else {
                 const h1 = heroSection.querySelector('.reveal-text');
                 const sub = heroSection.querySelector('.subtitle');
