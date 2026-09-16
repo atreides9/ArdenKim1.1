@@ -1356,8 +1356,8 @@ figcaption {
 
 /* Increase spacing and add a separator for major sections */
 .project-section {
-    padding-top: 5rem;
-    margin-top: 5rem;
+    padding-top: 7.5rem;
+    margin-top: 7.5rem;
     border-top: 1px solid var(--border-color);
 }
 
