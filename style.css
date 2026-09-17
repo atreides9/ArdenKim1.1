@@ -2084,7 +2084,12 @@ body.dark-mode .work-archive-desc {
         display: block;
         max-width: 1400px;
         margin: 0 auto;
-        padding: var(--space-16) 5%;
+        /* Capped, not pure 5%: percentage padding resolves against the
+           viewport, not against this box's max-width-capped width, so a
+           plain "5%" kept eating more space as the viewport grew past
+           1400px — shrinking the row's content width instead of holding
+           it steady, and wrapping the gallery on very wide screens. */
+        padding: var(--space-16) clamp(24px, 5%, 70px);
     }
 }
 
@@ -2128,7 +2133,7 @@ body.dark-mode .work-archive-desc {
        percentage padding is resolved against the viewport, not against
        its max-width-capped box, so content width doesn't scale linearly
        past 1400px — a smooth clamp overshot and wrapped the row there. */
-    height: 280px;
+    height: 260px;
     box-shadow:
         0 0 0 var(--mat) #fff,
         0 0 0 calc(var(--mat) + 1px) rgba(28, 27, 25, 0.09),
@@ -2151,14 +2156,11 @@ body.dark-mode .work-archive-desc {
 }
 
 @media (min-width: 1440px) {
+    /* The section's padding is capped past 1400px (see .curation-section
+       above), so the row's content width holds steady from here on —
+       one size covers 1440px screens and ultrawide monitors alike. */
     .curation-frame__stage {
         height: 360px;
-    }
-}
-
-@media (min-width: 1920px) {
-    .curation-frame__stage {
-        height: 400px;
     }
 }
 
@@ -2205,6 +2207,13 @@ body.dark-mode .work-archive-desc {
 .curation-frame__caption {
     display: block;
     margin-top: 4px;
+    /* A fixed cap, not a percentage: figcaption has no width of its own,
+       so an unconstrained one-line sentence set its *preferred* width —
+       which fed back into the flex item's auto sizing and stretched the
+       narrower place/detail frames wider than their photo, overflowing
+       the row into a wrap. Capped here, it wraps to 2–3 lines instead. */
+    max-width: 200px;
+    margin-left: auto;
     font-size: 0.8125rem;
     line-height: 1.5;
     color: var(--text-muted);
